@@ -1,0 +1,3 @@
+#' @docType package
+#' ffbase2
+#' 

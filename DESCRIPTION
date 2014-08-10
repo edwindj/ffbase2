@@ -7,4 +7,6 @@ Author: Who wrote it
 Maintainer: Who to complain to <yourfault@somewhere.net>
 Description: More about what it does (maybe more than one line)
 License: GPL2
-Depends: dplyr, ff, ffbase
+Depends:
+    dplyr,
+    ff

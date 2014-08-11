@@ -9,6 +9,7 @@
 \alias{manip_ffdf}
 \alias{mutate.ffdf}
 \alias{mutate.tbl_ffdf}
+\alias{rename.ffdf}
 \alias{select.ffdf}
 \alias{select.tbl_ffdf}
 \alias{summarise.ffdf}
@@ -34,6 +35,8 @@
 \method{select}{ffdf}(.data, ...)
 
 \method{select}{tbl_ffdf}(.data, ...)
+
+rename.ffdf(.data, ...)
 
 \method{do}{ffdf}(.data, .f, ...)
 

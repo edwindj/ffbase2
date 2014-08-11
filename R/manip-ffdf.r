@@ -57,16 +57,20 @@ filter.tbl_ffdf <- function(.data, ..., env=parent.frame()) {
  #' @rdname manip_ffdf
 #' @export
 summarise.ffdf <- function(.data, ...) {
-  cols <- named_dots(...)
+  #cols <- named_dots(...)
+  input <- partial_eval(dots(...), .data, parent.frame())
+  input <- auto_name(input)
   
   data_env <- list2env(physical(.data), parent = parent.frame())
-  data_env$count <- function() nrow(.data)
+  data_env$n <- function() nrow(.data)
   
-  for (col in names(cols)) {
-    data_env[[col]] <- as.ff(eval(cols[[col]], data_env))
+  result <- list()
+  
+  for (col in names(input)) {
+    result[[col]] <- as.ff(eval(input[[col]], data_env))
   }
   
-  do.call("ffdf", (mget(names(cols), data_env)))
+  do.call("ffdf", result)
 #   quote
 #   l <- list()
 #   for (col in names(cols)){
@@ -79,7 +83,7 @@ summarise.ffdf <- function(.data, ...) {
 #' @export
 summarise.tbl_ffdf <- function(.data, ...) {
   tbl_ffdf(
-    summarise.ffdf(.data$obj, ...)
+    summarise.ffdf(.data, ...)
   )
 }
 
@@ -118,8 +122,9 @@ arrange.tbl_ffdf <- function(.data, ...) {
 #' @rdname manip_ffdf
 #' @export
 select.ffdf <- function(.data, ...) {
-  input <- var_eval(dots(...), .data, parent.frame())
-  .data[input]
+  vars <- select_vars(names(.data), ..., env = parent.frame(),
+                      include = as.character(groups(.data)))
+  .data[vars]
 }
 
 #' @rdname manip_ffdf
@@ -129,6 +134,15 @@ select.tbl_ffdf <- function(.data, ...) {
     select.ffdf(.data, ...)
   )
 }
+
+#' @rdname manip_ffdf
+#' @export
+rename.ffdf <- function(.data, ...) {
+  vars <- rename_vars(names(.data), ..., env = parent.frame(),
+                      include = as.character(groups(.data)))
+  setNames(.data, vars)
+}
+
 
 #' @rdname manip_ffdf
 #' @export

@@ -30,13 +30,12 @@ prior to modification to avoid changes propagating via reference.}
 Data manipulation for grouped data tables.
 }
 \examples{
-if (require("ffbase")) {
 data("baseball", package = "plyr")
 baseball_ffdf <- as.ffdf(baseball)
 players <- group_by(baseball_ffdf, id)
 filter(players, g == max(g))
 summarise(players, g = mean(g))
-mutate(players, cyear = year - min(year) + 1)
+mutate(players, year = year - min(year) + 1)
 arrange(players, id, desc(year))
 select(players, id:team)
 
@@ -47,6 +46,5 @@ summarise(by_year, years = max(cyear))
 
 # You can also manually ungroup:
 arrange(ungroup(by_year), id, year)
-}
 }
 

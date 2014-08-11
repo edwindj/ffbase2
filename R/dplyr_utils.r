@@ -5,6 +5,9 @@ commas <- dplyr:::commas
 named_dots <- dplyr:::named_dots
 deparse_all <- dplyr:::deparse_all
 
+auto_name <- dplyr:::auto_name
+auto_names <- dplyr:::auto_names
+
 # right now do it naively
 build_index <- function(group){
   idx <- fforder(group)

@@ -7,7 +7,7 @@
 #' @param data a data source or data frame.
 #' @param vars a list of quoted variables.
 grouped_ffdf <- function(data, vars, drop=TRUE) {
-  stopifnot(is.ffdf(data))
+  assert_that(is.ffdf(data))
   is_name <- vapply(vars, is.name, logical(1))
   if (!all(is_name)) {
     stop("Data tables can only be grouped by variables, not expressions",
@@ -16,7 +16,7 @@ grouped_ffdf <- function(data, vars, drop=TRUE) {
   attr(data, "vars") <- vars
   
   #TODO create a group ff vector
-  indices <- ff::ffdforder(data[vars])
+  indices <- ff::ffdforder(data[as.character(vars)])
   attr(data, "indices") <- indices
   structure(data, class = c("grouped_ffdf", "tbl_ffdf", "tbl", "ffdf"))
 }
@@ -36,7 +36,7 @@ print.grouped_ffdf <- function(x, ..., n=NULL) {
 
 #' @export
 group_size.grouped_ffdf <- function(x) {
-  group_size_grouped_cpp(x)
+  stop("Not implemented")
 }
 
 #' @export
@@ -45,16 +45,15 @@ n_groups.grouped_ffdf <- function(x) {
 }
 
 #' @export
-groups.grouped_ffdf <- function(x) {
+groups.tbl_ffdf <- function(x) {
   attr(x, "vars")
 }
 
 #' @export
-as.ffdf.grouped_ffdf <- function(x, row.names = NULL,
+as.data.frame.grouped_ffdf <- function(x, row.names = NULL,
                                      optional = FALSE, ...) {
   x <- ungroup(x)
-  class(x) <- "ffdf"
-  x
+  x[,]
 }
 
 #' @export

@@ -5,14 +5,13 @@
 #' @param inplace if \code{FALSE} (the default) the data frame will be copied
 #'   prior to modification to avoid changes propagating via reference.
 #' @examples
-#' if (require("ffbase")) {
 #' data("baseball", package = "plyr")
 #' baseball_ffdf <- as.ffdf(baseball)
 #' players <- group_by(baseball_ffdf, id)
 #
 #' filter(players, g == max(g))
 #' summarise(players, g = mean(g))
-#' mutate(players, cyear = year - min(year) + 1)
+#' mutate(players, year = year - min(year) + 1)
 #' arrange(players, id, desc(year))
 #' select(players, id:team)
 #'
@@ -23,7 +22,6 @@
 #'
 #' # You can also manually ungroup:
 #' arrange(ungroup(by_year), id, year)
-#' }
 #' @name manip_grouped_ffdf
 NULL
 
@@ -57,7 +55,6 @@ summarise.grouped_ffdf <- function(.data, ...){
 #' @export
 #' @method mutate grouped_ffdf
 mutate.grouped_ffdf <- function(.data, ..., inplace = FALSE) {
-  data <- .data$obj
   keys <- deparse_all(.data$vars)
   if (!inplace) data <- clone(data)
   stop("Not implemented")

@@ -87,7 +87,7 @@ select.grouped_ffdf <- function(.data, ...) {
 }
 
 
-#' @export do grouped_ffdf
+#' @export
 do.grouped_ffdf <- function(.data, .f, ...) {
   stop("Not implemented")
   eval(call, env)$out

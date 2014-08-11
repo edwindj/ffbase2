@@ -54,17 +54,8 @@ prior to modification to avoid changes propagating via reference.}
 Data manipulation for ffdf.
 }
 \examples{
-if (require("hflights") {
-# If you start with a ffdf, you end up with a ffdf
-hflights <- as.ffdf(hflights)
-filter(hflights, Month == 1, DayofMonth == 1, Dest == "DFW")
-head(select(hflights, Year:DayOfWeek))
-summarise(hflights, delay = mean(ArrDelay, na.rm = TRUE), n = length(ArrDelay))
-head(mutate(hflights, gained = ArrDelay - DepDelay))
-head(arrange(hflights, Dest, desc(ArrDelay)))
+if (require("hflights")) {
 
-# If you start with a tbl, you end up with a tbl
-hflights2 <- as.tbl(hflights)
 filter(hflights2, Month == 1, DayofMonth == 1, Dest == "DFW")
 head(select(hflights2, Year:DayOfWeek))
 summarise(hflights2, delay = mean(ArrDelay, na.rm = TRUE), n = length(ArrDelay))

@@ -26,7 +26,7 @@ grouped_ffdf <- function(data, vars, drop=TRUE) {
 #' @export
 is.grouped_ffdf <- function(x) inherits(x, "grouped_ffdf")
 
-#' @export print grouped_ffdf
+#' @export
 print.grouped_ffdf <- function(x, ..., n=NULL) {
   cat("Source: local ffdf ", dim_desc(x), "\n", sep = "")
   cat("Groups: ", commas(deparse_all(groups(x))), "\n", sep = "")

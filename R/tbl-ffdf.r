@@ -39,7 +39,7 @@ tbl_vars.ffdf <- function(x) names(x)
 
 # Standard data frame methods --------------------------------------------------
 
-#' @export as.data.frame tbl_ffdf
+#' @export
 #' @rdname tbl-ffdf
 as.data.frame.tbl_ffdf <- function(x, row.names = NULL, optional = FALSE, ...) {
   if (!is.null(row.names)) warning("row.names argument ignored", call. = FALSE)
@@ -47,7 +47,7 @@ as.data.frame.tbl_ffdf <- function(x, row.names = NULL, optional = FALSE, ...) {
   x[,,drop=FALSE]
 }
 
-#' @export print tbl_ffdf
+#' @export
 #' @rdname tbl-ffdf
 print.tbl_ffdf <- function(x, ...) {
   cat("Source:     ffdf ", dim_desc(x), "\n", sep = "")
@@ -55,10 +55,10 @@ print.tbl_ffdf <- function(x, ...) {
   trunc_mat(x)
 }
 
-#' @export head tbl_ffdf
+#' @export
 #' @rdname tbl-ffdf
-head.tbl_ffdf <- function(x, n=6L, ...) x[seq_len(n), ] # NOTE no negative n supported!
+head.tbl_ffdf <- function(x, n=6L, ...) x[seq_len(n),, drop=FALSE] # NOTE no negative n supported!
 
-#' @export tail tbl_ffdf
+#' @export
 #' @rdname tbl-ffdf
 tail.tbl_ffdf <- function(x, n=6L, ...) tail(x, n=n, ...)

@@ -90,7 +90,7 @@ select.grouped_ffdf <- function(.data, ...) {
 }
 
 
-#' @S3method do grouped_ffdf
+#' @export do grouped_ffdf
 do.grouped_ffdf <- function(.data, .f, ...) {
   stop("Not implemented")
   eval(call, env)$out

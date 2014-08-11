@@ -6,16 +6,19 @@
 #'
 #' @param data a data source or data frame.
 #' @param vars a list of quoted variables.
-grouped_ffdf <- function(data, vars) {
+grouped_ffdf <- function(data, vars, drop=TRUE) {
   stopifnot(is.ffdf(data))
-
   is_name <- vapply(vars, is.name, logical(1))
   if (!all(is_name)) {
     stop("Data tables can only be grouped by variables, not expressions",
       call. = FALSE)
   }
-  data <- list(obj = data, vars = vars)
-  structure(data, class = c("grouped_ffdf", "tbl_ffdf", "source"))
+  attr(data, "vars") <- vars
+  
+  #TODO create a group ff vector
+  indices <- ff::ffdforder(data[vars])
+  attr(data, "indices") <- indices
+  structure(data, class = c("grouped_ffdf", "tbl_ffdf", "tbl", "ffdf"))
 }
 
 #' @rdname grouped_ffdf
@@ -23,33 +26,54 @@ grouped_ffdf <- function(data, vars) {
 #' @export
 is.grouped_ffdf <- function(x) inherits(x, "grouped_ffdf")
 
-#' @S3method print grouped_ffdf
-print.grouped_ffdf <- function(x, ...) {
+#' @export print grouped_ffdf
+print.grouped_ffdf <- function(x, ..., n=NULL) {
   cat("Source: local ffdf ", dim_desc(x), "\n", sep = "")
-  cat("Groups: ", dplyr:::commas(deparse_all(x$vars)), "\n", sep = "")
+  cat("Groups: ", commas(deparse_all(groups(x))), "\n", sep = "")
   cat("\n")
-  trunc_mat(x)
+  trunc_mat(x, n=n)
 }
 
-#' @method group_by data.table
 #' @export
-#' @rdname grouped_ffdf
-#' @param ... variables to group by
-group_by.data.table <- function(x, ...) {
-  vars <- dots(...)
-  grouped_ffdf(x, c(x$group_by, vars))
+group_size.grouped_ffdf <- function(x) {
+  group_size_grouped_cpp(x)
 }
 
-#' @method group_by tbl_ffdf
 #' @export
-#' @rdname grouped_ffdf
-group_by.tbl_ffdf <- function(x, ...) {
-  vars <- dots(...)
-  grouped_ffdf(x$obj, vars)
+n_groups.grouped_ffdf <- function(x) {
+  length(attr(x, "indices"))
 }
 
-#' @S3method ungroup grouped_ffdf
+#' @export
+groups.grouped_ffdf <- function(x) {
+  attr(x, "vars")
+}
+
+#' @export
+as.ffdf.grouped_ffdf <- function(x, row.names = NULL,
+                                     optional = FALSE, ...) {
+  x <- ungroup(x)
+  class(x) <- "ffdf"
+  x
+}
+
+#' @export
 ungroup.grouped_ffdf <- function(x) {
-  tbl_ffdf(x$obj)
+  stop("ungroup not implemented")
 }
 
+#' @export
+regroup.grouped_ffdf <- function(x, value) {
+  grouped_ffdf(x, unname(value))
+}
+
+#' @export
+regroup.ffdf <- function(x, value) {
+  grouped_ffdf(x, unname(value))
+}
+
+
+
+### testing...
+# ds <- tbl_ffdf(mtcars)
+# group_by(ds, cyl)

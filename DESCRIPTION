@@ -1,12 +1,16 @@
 Package: ffbase2
+Maintainer: Edwin de Jonge <edwindjonge@gmail.com>
+License: GPL-3
+Title: Basic statistical functions for package ff
 Type: Package
-Title: What the package does (short line)
+LazyLoad: yes
+Author: Edwin de Jonge
+Description: Dplyr for package ff
 Version: 0.1
-Date: 2014-08-08
-Author: Who wrote it
-Maintainer: Who to complain to <yourfault@somewhere.net>
-Description: More about what it does (maybe more than one line)
-License: GPL2
+URL: http://github.com/edwindj/ffbase
+Date: 2014-08-01
 Depends:
-    dplyr,
-    ff
+    ff (>= 2.2-11),
+    dplyr
+Suggests:
+    testthat

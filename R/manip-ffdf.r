@@ -39,6 +39,7 @@ and_expr <- function(exprs) {
 
 #' @rdname manip_ffdf
 #' @export
+#' @importFrom ffbase ffwhich
 filter.ffdf <- function(.data, ..., env=parent.frame()) {
   expr <- and_expr(dots(...))
   idx <- ffwhich(.data, as.expression(expr), envir=env)
@@ -53,7 +54,7 @@ filter.tbl_ffdf <- function(.data, ..., env=parent.frame()) {
   )
 }
 
-#' @rdname manip_ffdf
+ #' @rdname manip_ffdf
 #' @export
 summarise.ffdf <- function(.data, ...) {
   cols <- named_dots(...)
@@ -138,5 +139,5 @@ do.ffdf <- function(.data, .f, ...) {
 #' @rdname manip_ffdf
 #' @export
 do.tbl_ffdf <- function(.data, .f, ...) {
-  list(.f(as.data.frame(.data$obj), ...))
+  tbl_ffdf(.f(as.data.frame(.data), ...))
 }

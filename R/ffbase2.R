@@ -1,4 +1,4 @@
 #' @docType package
 #' ffbase2
-#' @import ffbase
+#' @import assertthat
 NULL

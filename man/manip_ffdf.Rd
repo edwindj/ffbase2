@@ -54,7 +54,7 @@ prior to modification to avoid changes propagating via reference.}
 Data manipulation for ffdf.
 }
 \examples{
-if (require("ffbase") && require("hflights")) {
+if (require("hflights") {
 # If you start with a ffdf, you end up with a ffdf
 hflights <- as.ffdf(hflights)
 filter(hflights, Month == 1, DayofMonth == 1, Dest == "DFW")

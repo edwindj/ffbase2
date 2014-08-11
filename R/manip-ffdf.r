@@ -5,7 +5,7 @@
 #' @param inplace if \code{FALSE} (the default) the data frame will be copied
 #'   prior to modification to avoid changes propagating via reference.
 #' @examples
-#' if (require("ffbase") && require("hflights")) {
+#' if (require("hflights") {
 #' # If you start with a ffdf, you end up with a ffdf
 #' hflights <- as.ffdf(hflights)
 #' filter(hflights, Month == 1, DayofMonth == 1, Dest == "DFW")
@@ -89,9 +89,10 @@ summarise.tbl_ffdf <- function(.data, ...) {
 
 #' @rdname manip_ffdf
 #' @export
+#' @importFrom ffbase transform.ffdf
 mutate.ffdf <- function(.data, ..., inplace = FALSE) {
   if (!inplace) .data <- clone(.data)
-  eval(substitute(transform.ffdf(.data, ...)))
+  eval(substitute(ffbase::transform.ffdf(.data, ...)))
 }
 
 #' @rdname manip_ffdf

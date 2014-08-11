@@ -109,7 +109,7 @@ arrange.ffdf <- function(.data, ...) {
   vars <- dots(...)
   vars <- sapply(vars, function(v){substitute(.data$v, list(v=v))})
   idx <- eval(substitute(do.call("fforder", vars)))
-  .data[idx,]
+  .data[idx,,drop=FALSE]
 }
 
 #' @rdname manip_ffdf
@@ -148,7 +148,7 @@ rename.ffdf <- function(.data, ...) {
 #' @rdname manip_ffdf
 #' @export
 do.ffdf <- function(.data, .f, ...) {
-  list(.f(as.data.frame(.data), ...))
+  list(.f(.data[,,drop=F], ...))
 }
 
 #' @rdname manip_ffdf

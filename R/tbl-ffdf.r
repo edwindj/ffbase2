@@ -44,7 +44,7 @@ tbl_vars.ffdf <- function(x) names(x)
 as.data.frame.tbl_ffdf <- function(x, row.names = NULL, optional = FALSE, ...) {
   if (!is.null(row.names)) warning("row.names argument ignored", call. = FALSE)
   if (!identical(optional, FALSE)) warning("optional argument ignored", call. = FALSE)
-  as.data.frame.ffdf(x, ...)
+  x[,,drop=FALSE]
 }
 
 #' @export print tbl_ffdf
@@ -52,7 +52,6 @@ as.data.frame.tbl_ffdf <- function(x, row.names = NULL, optional = FALSE, ...) {
 print.tbl_ffdf <- function(x, ...) {
   cat("Source:     ffdf ", dim_desc(x), "\n", sep = "")
   cat("\n")
-  # TODO add head and tail to ffdf
   trunc_mat(x)
 }
 

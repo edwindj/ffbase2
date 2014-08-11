@@ -27,7 +27,6 @@ NULL
 
 #' @rdname manip_grouped_ffdf
 #' @export
-#' @method filter grouped_ffdf
 filter.grouped_ffdf <- function(.data, ...) {
   expr <- and_expr(dots(...))
   stop("Not implemented")
@@ -39,7 +38,6 @@ filter.grouped_ffdf <- function(.data, ...) {
 
 #' @rdname manip_grouped_ffdf
 #' @export
-#' @method summarise grouped_ffdf
 summarise.grouped_ffdf <- function(.data, ...){
   # TODO check is .data$vars match current index
   
@@ -53,7 +51,6 @@ summarise.grouped_ffdf <- function(.data, ...){
 
 #' @rdname manip_grouped_ffdf
 #' @export
-#' @method mutate grouped_ffdf
 mutate.grouped_ffdf <- function(.data, ..., inplace = FALSE) {
   keys <- deparse_all(.data$vars)
   if (!inplace) data <- clone(data)
@@ -66,7 +63,6 @@ mutate.grouped_ffdf <- function(.data, ..., inplace = FALSE) {
 
 #' @rdname manip_grouped_ffdf
 #' @export
-#' @method arrange grouped_ffdf
 arrange.grouped_ffdf <- function(.data, ...) {
   stop("Not implemented")
   grouped_ffdf(
@@ -77,7 +73,6 @@ arrange.grouped_ffdf <- function(.data, ...) {
 
 #' @rdname manip_grouped_ffdf
 #' @export
-#' @method select grouped_ffdf
 select.grouped_ffdf <- function(.data, ...) {
   stop("Not implemented")
   grouped_ffdf(

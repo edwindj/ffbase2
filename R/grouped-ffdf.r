@@ -6,6 +6,7 @@
 #'
 #' @param data a data source or data frame.
 #' @param vars a list of quoted variables.
+#' @param drop 
 grouped_ffdf <- function(data, vars, drop=TRUE) {
   assert_that(is.ffdf(data))
   is_name <- vapply(vars, is.name, logical(1))

@@ -13,6 +13,8 @@ is.grouped_ffdf(x)
 
 \item{vars}{a list of quoted variables.}
 
+\item{drop}{}
+
 \item{x}{an object to check}
 }
 \description{

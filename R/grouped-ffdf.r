@@ -65,7 +65,8 @@ as.data.frame.grouped_ffdf <- function(x, row.names = NULL,
 #' @export
 ungroup.grouped_ffdf <- function(x) {
   class(x) <- "ffdf"
-  attr("indices", x) <- NULL
+  attr(x,"indices") <- NULL
+  attr(x,"vars") <- NULL
   tbl_ffdf(x)
 }
 
@@ -78,7 +79,6 @@ regroup.grouped_ffdf <- function(x, value) {
 regroup.ffdf <- function(x, value) {
   grouped_ffdf(x, unname(value))
 }
-
 
 ### testing...
 # ds <- tbl_ffdf(mtcars)

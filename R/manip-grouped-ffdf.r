@@ -32,7 +32,7 @@ filter.grouped_ffdf <- function(.data, ...) {
   stop("Not implemented")
   grouped_ffdf(
     data = out,
-    vars = .data$vars
+    vars = groups(.data)
   )
 }
 
@@ -45,7 +45,7 @@ summarise.grouped_ffdf <- function(.data, ...){
   stop("Not implemented")
   grouped_ffdf(
     data = out,
-    vars = .data$vars
+    vars = groups(.data)
   )
 }
 

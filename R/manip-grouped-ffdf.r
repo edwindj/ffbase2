@@ -52,12 +52,11 @@ summarise.grouped_ffdf <- function(.data, ...){
 #' @rdname manip_grouped_ffdf
 #' @export
 mutate.grouped_ffdf <- function(.data, ..., inplace = FALSE) {
-  keys <- deparse_all(.data$vars)
-  if (!inplace) data <- clone(data)
+  if (!inplace) .data <- clone(.data)
   stop("Not implemented")
   grouped_ffdf(
-    data = data,
-    vars = .data$vars
+    data = .data,
+    vars = groups(.data)
   )
 }
 

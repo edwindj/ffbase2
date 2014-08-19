@@ -16,4 +16,4 @@ get_window <- function(x, begin=1L, end=nrow(x)){
 }
 
 # iris.ffdf <- as.ffdf(iris)
-# get_window(iris.ffdf, 4, 10)
+# xw<- get_window(iris.ffdf, 4, 10)

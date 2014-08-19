@@ -15,9 +15,13 @@ grouped_ffdf <- function(data, vars, drop=TRUE) {
       call. = FALSE)
   }
   
-  o <- ff::ffdforder(data[as.character(vars)])
-  rles <- lapply(as.character(vars), function(v){
-    rle_ff(data[[v]][o])
+  vars_s <- deparse_all(vars)
+  
+  o <- ff::ffdforder(data[vars_s])
+  data_sorted <- data[o,]
+  
+  rles <- lapply(vars_s, function(v){
+    rle_ff(data_sorted[[v]])
     #TODO fix/checks the rles, so that rle[[i+1]]] is a subdivision of rle[i] 
   })
   
@@ -27,7 +31,10 @@ grouped_ffdf <- function(data, vars, drop=TRUE) {
   structure( data
            , class = c("grouped_ffdf", "tbl_ffdf", "tbl", "ffdf")
            , vars = vars
-           , indices = list(order=o, rles=rles, n_groups=rles[[length(rles)]])
+           , indices = list( order=o, rles=rles
+                           , n_groups=rles[[length(rles)]]
+                           , data_sorted=data_sorted
+                           )
            )
 }
 

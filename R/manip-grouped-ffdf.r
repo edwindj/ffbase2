@@ -29,6 +29,17 @@ NULL
 #' @export
 filter.grouped_ffdf <- function(.data, ...) {
   expr <- and_expr(dots(...))
+  groups <- group_size(.data)
+  
+  end <- cumsum(groups)
+  begin <- head(c(1, end+1), -1)
+  res <- NULL
+  
+  for (i in seq_along(groups)){
+    .data_w <- get_window(.data, begin[i], end[i])
+    # FIX!
+    res <- ffdfappend(filter.ffdf(.data_w, expr))
+  }
   stop("Not implemented")
   grouped_ffdf(
     data = out,

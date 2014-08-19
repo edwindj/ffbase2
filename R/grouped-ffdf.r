@@ -18,7 +18,7 @@ grouped_ffdf <- function(data, vars, drop=TRUE) {
   vars_s <- deparse_all(vars)
   
   o <- ff::ffdforder(data[vars_s])
-  data_sorted <- data[o,]
+  data_sorted <- data[o,,drop=FALSE]
   
   rles <- lapply(vars_s, function(v){
     rle_ff(data_sorted[[v]])
@@ -87,6 +87,10 @@ regroup.ffdf <- function(x, value) {
   grouped_ffdf(x, unname(value))
 }
 
+
+data_sorted <- function(x){
+  attr(x, "indices")$data_sorted
+}
 ### testing...
 # ds <- tbl_ffdf(mtcars)
 # g <- group_by(ds, cyl)

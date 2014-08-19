@@ -27,22 +27,23 @@ NULL
 
 #' @rdname manip_grouped_ffdf
 #' @export
-filter.grouped_ffdf <- function(.data, ...) {
+filter.grouped_ffdf <- function(.data, ..., env=parent.frame()) {
   expr <- and_expr(dots(...))
   groups <- group_size(.data)
+  data_s <- data_sorted(.data)
   
   end <- cumsum(groups)
   begin <- head(c(1, end+1), -1)
-  res <- NULL
+  res_idx <- NULL
   
   for (i in seq_along(groups)){
-    .data_w <- get_window(.data, begin[i], end[i])
-    # FIX!
-    res <- ffdfappend(filter.ffdf(.data_w, expr))
+    .data_w <- get_window(data_s, begin[i], end[i])
+    idx <- ffwhich(.data_w, as.expression(expr), envir = env)
+    idx[, add=TRUE] <- begin[i] - 1L
+    res_idx <- ffappend(res_idx, idx)
   }
-  stop("Not implemented")
   grouped_ffdf(
-    data = out,
+    data = data_s[res_idx,,drop=FALSE],
     vars = groups(.data)
   )
 }
@@ -97,3 +98,9 @@ do.grouped_ffdf <- function(.data, .f, ...) {
   stop("Not implemented")
   eval(call, env)$out
 }
+
+### testing...
+# ds <- tbl_ffdf(mtcars)
+# g <- group_by(ds, cyl)
+# filter(g, gear == max(gear))
+

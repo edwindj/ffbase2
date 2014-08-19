@@ -14,12 +14,21 @@ grouped_ffdf <- function(data, vars, drop=TRUE) {
     stop("Data tables can only be grouped by variables, not expressions",
       call. = FALSE)
   }
-  attr(data, "vars") <- vars
   
-  #TODO create a group ff vector
-  indices <- ff::ffdforder(data[as.character(vars)])
-  attr(data, "indices") <- indices
-  structure(data, class = c("grouped_ffdf", "tbl_ffdf", "tbl", "ffdf"))
+  o <- ff::ffdforder(data[as.character(vars)])
+  rles <- lapply(as.character(vars), function(v){
+    rle_ff(data[[v]][o])
+    #TODO fix/checks the rles, so that rle[[i+1]]] is a subdivision of rle[i] 
+  })
+  
+#   attr(data, "vars") <- vars
+#   attr(data, "indices") <- list(order=o, rles=rles, n_groups=rles[[length(rles)]])
+
+  structure( data
+           , class = c("grouped_ffdf", "tbl_ffdf", "tbl", "ffdf")
+           , vars = vars
+           , indices = list(order=o, rles=rles, n_groups=rles[[length(rles)]])
+           )
 }
 
 #' @rdname grouped_ffdf
@@ -37,12 +46,8 @@ print.grouped_ffdf <- function(x, ..., n=NULL) {
 
 #' @export
 group_size.grouped_ffdf <- function(x) {
-  stop("Not implemented")
-}
-
-#' @export
-n_groups.grouped_ffdf <- function(x) {
-  length(attr(x, "indices"))
+  n <- attr(x, "indices")$n_groups
+  n$lengths
 }
 
 #' @export
@@ -54,12 +59,15 @@ groups.tbl_ffdf <- function(x) {
 as.data.frame.grouped_ffdf <- function(x, row.names = NULL,
                                      optional = FALSE, ...) {
   x <- ungroup(x)
-  x[,]
+  x[,,drop=FALSE]
 }
 
 #' @export
 ungroup.grouped_ffdf <- function(x) {
-  stop("ungroup not implemented")
+  class(x) <- "ffdf"
+  attr(x,"indices") <- NULL
+  attr(x,"vars") <- NULL
+  tbl_ffdf(x)
 }
 
 #' @export
@@ -72,8 +80,7 @@ regroup.ffdf <- function(x, value) {
   grouped_ffdf(x, unname(value))
 }
 
-
-
 ### testing...
 # ds <- tbl_ffdf(mtcars)
-# group_by(ds, cyl)
+# g <- group_by(ds, cyl)
+# group_size(g)

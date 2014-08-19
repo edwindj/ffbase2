@@ -32,7 +32,7 @@ filter.grouped_ffdf <- function(.data, ...) {
   stop("Not implemented")
   grouped_ffdf(
     data = out,
-    vars = .data$vars
+    vars = groups(.data)
   )
 }
 
@@ -45,19 +45,18 @@ summarise.grouped_ffdf <- function(.data, ...){
   stop("Not implemented")
   grouped_ffdf(
     data = out,
-    vars = .data$vars
+    vars = groups(.data)
   )
 }
 
 #' @rdname manip_grouped_ffdf
 #' @export
 mutate.grouped_ffdf <- function(.data, ..., inplace = FALSE) {
-  keys <- deparse_all(.data$vars)
-  if (!inplace) data <- clone(data)
+  if (!inplace) .data <- clone(.data)
   stop("Not implemented")
   grouped_ffdf(
-    data = data,
-    vars = .data$vars
+    data = .data,
+    vars = groups(.data)
   )
 }
 

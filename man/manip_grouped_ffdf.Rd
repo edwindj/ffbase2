@@ -4,19 +4,16 @@
 \alias{filter.grouped_ffdf}
 \alias{manip_grouped_ffdf}
 \alias{mutate.grouped_ffdf}
-\alias{select.grouped_ffdf}
 \alias{summarise.grouped_ffdf}
 \title{Data manipulation for grouped data tables.}
 \usage{
-\method{filter}{grouped_ffdf}(.data, ...)
+\method{filter}{grouped_ffdf}(.data, ..., env = parent.frame())
 
 \method{summarise}{grouped_ffdf}(.data, ...)
 
 \method{mutate}{grouped_ffdf}(.data, ..., inplace = FALSE)
 
 \method{arrange}{grouped_ffdf}(.data, ...)
-
-\method{select}{grouped_ffdf}(.data, ...)
 }
 \arguments{
 \item{.data}{a data table}

@@ -51,8 +51,7 @@ filter.grouped_ffdf <- function(.data, ..., env=parent.frame()) {
 #' @rdname manip_grouped_ffdf
 #' @export
 summarise.grouped_ffdf <- function(.data, ...){
-  # TODO check is .data$vars match current index
-  
+  # TODO check is .data$vars match current index  
   cols <- named_dots(...)
   stop("Not implemented")
   grouped_ffdf(
@@ -75,28 +74,17 @@ mutate.grouped_ffdf <- function(.data, ..., inplace = FALSE) {
 #' @rdname manip_grouped_ffdf
 #' @export
 arrange.grouped_ffdf <- function(.data, ...) {
-  stop("Not implemented")
+  vars <- select_vars(names(.data), ..., env = parent.frame(),
+                      include = as.character(groups(.data)))
+  idx <- ffdforder(.data[vars])
   grouped_ffdf(
-    data = out,
-    vars = .data$vars
+    data = .data[idx,,drop=FALSE],
+    vars = vars
   )
 }
-
-#' @rdname manip_grouped_ffdf
-#' @export
-select.grouped_ffdf <- function(.data, ...) {
-  stop("Not implemented")
-  grouped_ffdf(
-    data = out,
-    vars = .data$vars
-  )
-}
-
 
 #' @export
 do.grouped_ffdf <- function(.data, .f, ...) {
-  stop("Not implemented")
-  eval(call, env)$out
 }
 
 ### testing...

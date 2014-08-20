@@ -79,7 +79,7 @@ arrange.grouped_ffdf <- function(.data, ...) {
   idx <- ffdforder(.data[vars])
   grouped_ffdf(
     data = .data[idx,,drop=FALSE],
-    vars = vars
+    vars = groups(.data)
   )
 }
 
@@ -91,4 +91,4 @@ do.grouped_ffdf <- function(.data, .f, ...) {
 # ds <- tbl_ffdf(mtcars)
 # g <- group_by(ds, cyl)
 # filter(g, gear == max(gear))
-
+arrange(g, am, carb)

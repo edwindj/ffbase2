@@ -7,7 +7,7 @@
 #' @param data a data source or data frame.
 #' @param vars a list of quoted variables.
 #' @param drop 
-grouped_ffdf <- function(data, vars, drop=TRUE) {
+grouped_ffdf <- function(data, vars, is_sorted=FALSE, drop=TRUE) {
   assert_that(is.ffdf(data))
   is_name <- vapply(vars, is.name, logical(1))
   if (!all(is_name)) {
@@ -17,11 +17,15 @@ grouped_ffdf <- function(data, vars, drop=TRUE) {
   
   vars_s <- deparse_all(vars)
   
-  o <- ff::ffdforder(data[vars_s])
-  data_sorted <- data[o,,drop=FALSE]
+  if (is_sorted){
+    .data_sorted <- data
+  } else {
+    o <- ff::ffdforder(data[vars_s])
+    .data_sorted <- data[o,,drop=FALSE]
+  }
   
   rles <- lapply(vars_s, function(v){
-    rle_ff(data_sorted[[v]])
+    ffbase::rle_ff(.data_sorted[[v]])
     #TODO fix/checks the rles, so that rle[[i+1]]] is a subdivision of rle[i] 
   })
   
@@ -31,9 +35,9 @@ grouped_ffdf <- function(data, vars, drop=TRUE) {
   structure( data
            , class = c("grouped_ffdf", "tbl_ffdf", "tbl", "ffdf")
            , vars = vars
-           , indices = list( order=o, rles=rles
+           , indices = list( rles=rles
                            , n_groups=rles[[length(rles)]]
-                           , data_sorted=data_sorted
+                           , data_sorted=.data_sorted
                            )
            )
 }

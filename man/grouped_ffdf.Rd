@@ -4,7 +4,7 @@
 \alias{is.grouped_ffdf}
 \title{A grouped ffdf.}
 \usage{
-grouped_ffdf(data, vars, drop = TRUE)
+grouped_ffdf(data, vars, is_sorted = FALSE, drop = TRUE)
 
 is.grouped_ffdf(x)
 }

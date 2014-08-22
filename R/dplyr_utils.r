@@ -4,9 +4,18 @@ dots <- dplyr:::dots
 commas <- dplyr:::commas
 named_dots <- dplyr:::named_dots
 deparse_all <- dplyr:::deparse_all
-
 auto_name <- dplyr:::auto_name
 auto_names <- dplyr:::auto_names
+`%||%` <- dplyr:::`%||%`
+common_by <- dplyr:::common_by
+
+borrow_from_dplyr <- function(...){
+  args <- deparse(substitute(list(...)))
+  ns <- getNamespace("dplyr")
+  dump(args, envir=getNamespace("dplyr"))
+}
+
+#borrow_from_dplyr(dots, commas, named_dots, deparse_all)
 
 # right now do it naively
 build_index <- function(group){

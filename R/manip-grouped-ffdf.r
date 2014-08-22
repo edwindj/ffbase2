@@ -91,4 +91,4 @@ do.grouped_ffdf <- function(.data, .f, ...) {
 # ds <- tbl_ffdf(mtcars)
 # g <- group_by(ds, cyl)
 # filter(g, gear == max(gear))
-arrange(g, am, carb)
+#arrange(g, am, carb)

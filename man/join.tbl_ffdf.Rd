@@ -7,13 +7,13 @@
 \alias{semi_join.ffdf}
 \title{Join ffdf tbls.}
 \usage{
-\method{inner_join}{ffdf}(x, y, by, ...)
+\method{inner_join}{ffdf}(x, y, by = NULL, copy = FALSE, ...)
 
-\method{left_join}{ffdf}(x, y, by, ...)
+\method{left_join}{ffdf}(x, y, by = NULL, copy = FALSE, ...)
 
-\method{semi_join}{ffdf}(x, y, by, ...)
+\method{semi_join}{ffdf}(x, y, by = NULL, ...)
 
-\method{anti_join}{ffdf}(x, y, by, ...)
+\method{anti_join}{ffdf}(x, y, by = NULL, ...)
 }
 \arguments{
 \item{x,y}{tbls to join}

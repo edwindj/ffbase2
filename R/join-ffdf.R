@@ -47,7 +47,7 @@ inner_join.ffdf <- function(x , y, by=NULL, copy = FALSE, ...){
   for (i in chunk(x)){
     x_chunk <- x[i,]
     for (j in chunk(y)){
-      res <- ffbase::ffdfappend(res, inner_join(x_chunk, y[j,]))
+      res <- ffbase::ffdfappend(res, inner_join(x_chunk, y[j,], by=by))
     }
   }
   if (!is.null(res))
@@ -68,7 +68,7 @@ left_join.ffdf  <- function(x, y, by=NULL, copy=FALSE, ...){
   for (i in chunk(x)){
     x_chunk <- x[i,]
     for (j in chunk(y)){
-      res <- ffbase::ffdfappend(res, left_join(x_chunk, y[j,]))
+      res <- ffbase::ffdfappend(res, left_join(x_chunk, y[j,], by=by))
     }
   }
   if (!is.null(res))
@@ -90,7 +90,7 @@ semi_join.ffdf  <- function(x, y, by=NULL, ...){
   for (i in chunk(x)){
     x_chunk <- x[i,]
     for (j in chunk(y)){
-      res <- ffbase::ffdfappend(res, semi_join(x_chunk, y[j,]))
+      res <- ffbase::ffdfappend(res, semi_join(x_chunk, y[j,], by=by))
     }
   }
   if (!is.null(res))
@@ -100,6 +100,29 @@ semi_join.ffdf  <- function(x, y, by=NULL, ...){
 #' @export
 #' @rdname join.tbl_ffdf
 anti_join.ffdf <- function(x, y, by=NULL, ...){
+  by <- by %||% common_by(x, y)
+  if (!length(by))
+    stop("no common variables")
+  
+  if (!is.ffdf(y)){
+    y <- tbl_ffdf(y)
+  }
+  
+  res <- NULL
+  for (i in chunk(x)){
+    x_chunk <- x[i,]
+    for (j in chunk(y)){
+      x_chunk <- anti_join(x_chunk, y[j,], by=by)
+      if (nrow(x_chunk) == 0){
+        break
+      }
+    }
+    if (nrow(x_chunk)){
+      res <- ffdfappend(res, x_chunk)
+    }
+  }
+  if (!is.null(res))
+    tbl_ffdf(res)
 }
 
 

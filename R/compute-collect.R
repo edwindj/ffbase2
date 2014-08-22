@@ -1,9 +1,15 @@
 # TODO check this
 #' @export
-collapse.tbl_ffdf <- function(x, ...) x
+collapse.tbl_ffdf <- function(x, ...) {
+  x
+}
 
 #' @export
-compute.tbl_ffdf <- function(x, ...) x
+compute.tbl_ffdf <- function(x, ...) {
+  x
+}
 
 #' @export
-collect.tbl_ffdf <- function(x, ...) x
+collect.tbl_ffdf <- function(x, ...) {
+  x
+}

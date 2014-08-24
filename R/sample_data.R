@@ -3,7 +3,7 @@
 #' @param x tabular object to sample from
 #' @param n size of sample
 #' @param seed random seed 
-#' @param ... 
+#' @param ... not used
 #' @export
 sample_data <- function(x, n=1e4, seed = NULL, ...){
   UseMethod("sample_data")

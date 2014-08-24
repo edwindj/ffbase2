@@ -4,7 +4,7 @@
 \alias{is.grouped_ffdf}
 \title{A grouped ffdf.}
 \usage{
-grouped_ffdf(data, vars, is_sorted = FALSE, drop = TRUE)
+grouped_ffdf(data, vars, is_sorted = FALSE)
 
 is.grouped_ffdf(x)
 }
@@ -13,7 +13,8 @@ is.grouped_ffdf(x)
 
 \item{vars}{a list of quoted variables.}
 
-\item{drop}{}
+\item{is_sorted}{if \code{data} is sorted on \code{vars} is_sorted should be
+set to \code{TRUE} to avoid unnecesary sorting}
 
 \item{x}{an object to check}
 }

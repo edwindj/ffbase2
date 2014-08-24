@@ -7,7 +7,6 @@
 #' @param x,y tbls to join
 #' @param ... Included for compatibility with generic; otherwise ignored.
 #' @examples
-#' if (require("RSQLite") && require("RSQLite.extfuns")) {
 #' data("Batting", package = "Lahman")
 #' data("Master", package = "Lahman")
 #'
@@ -28,7 +27,6 @@
 #'
 #' # Anti-join: find batting data with out player data
 #' anti_join(batting_ffdf, person_ffdf)
-#' }
 #' @name join.tbl_ffdf
 NULL
 

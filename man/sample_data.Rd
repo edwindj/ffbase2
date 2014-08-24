@@ -12,7 +12,7 @@ sample_data(x, n = 10000, seed = NULL, ...)
 
 \item{seed}{random seed}
 
-\item{...}{}
+\item{...}{not used}
 }
 \description{
 Uniformly sample data tabular object

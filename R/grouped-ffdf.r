@@ -6,8 +6,9 @@
 #'
 #' @param data a data source or data frame.
 #' @param vars a list of quoted variables.
-#' @param drop 
-grouped_ffdf <- function(data, vars, is_sorted=FALSE, drop=TRUE) {
+#' @param is_sorted if \code{data} is sorted on \code{vars} is_sorted should be
+#'  set to \code{TRUE} to avoid unnecesary sorting
+grouped_ffdf <- function(data, vars, is_sorted=FALSE) {
   assert_that(is.ffdf(data))
   is_name <- vapply(vars, is.name, logical(1))
   if (!all(is_name)) {

@@ -41,6 +41,7 @@ tbl_vars.ffdf <- function(x) names(x)
 
 #' @export
 #' @rdname tbl-ffdf
+#' @inheritParams base::as.data.frame
 as.data.frame.tbl_ffdf <- function(x, row.names = NULL, optional = FALSE, ...) {
   if (!is.null(row.names)) warning("row.names argument ignored", call. = FALSE)
   if (!identical(optional, FALSE)) warning("optional argument ignored", call. = FALSE)
@@ -49,10 +50,10 @@ as.data.frame.tbl_ffdf <- function(x, row.names = NULL, optional = FALSE, ...) {
 
 #' @export
 #' @rdname tbl-ffdf
-print.tbl_ffdf <- function(x, ...) {
+print.tbl_ffdf <- function(x, ..., n=NULL) {
   cat("Source:     ffdf ", dim_desc(x), "\n", sep = "")
   cat("\n")
-  trunc_mat(x)
+  trunc_mat(x, n=n)
 }
 
 #' @export

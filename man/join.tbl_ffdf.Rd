@@ -35,7 +35,6 @@ See \code{\link[dplyr]{join}} for a description of the general purpose of the
 functions.
 }
 \examples{
-if (require("RSQLite") && require("RSQLite.extfuns")) {
 data("Batting", package = "Lahman")
 data("Master", package = "Lahman")
 
@@ -56,6 +55,5 @@ top4 <- semi_join(batting_ffdf, grid, copy = TRUE)
 
 # Anti-join: find batting data with out player data
 anti_join(batting_ffdf, person_ffdf)
-}
 }
 

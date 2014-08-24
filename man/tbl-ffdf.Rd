@@ -20,7 +20,7 @@ tbl_ffdf(data)
 
 \method{as.data.frame}{tbl_ffdf}(x, row.names = NULL, optional = FALSE, ...)
 
-\method{print}{tbl_ffdf}(x, ...)
+\method{print}{tbl_ffdf}(x, ..., n = NULL)
 
 \method{head}{tbl_ffdf}(x, n = 6L, ...)
 
@@ -28,6 +28,17 @@ tbl_ffdf(data)
 }
 \arguments{
 \item{data}{a ffdf data.frame, will be converted to ffdf using as.ffdf}
+
+\item{x}{any \R object.}
+
+\item{...}{additional arguments to be passed to or from methods.}
+
+\item{row.names}{\code{NULL} or a character vector giving the row
+    names for the data frame.  Missing values are not allowed.}
+
+\item{optional}{logical. If \code{TRUE}, setting row names and
+    converting column names (to syntactic names: see
+    \code{\link{make.names}}) is optional.}
 }
 \description{
 A ffdf source wraps a local ffdf.

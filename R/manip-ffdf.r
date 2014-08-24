@@ -6,7 +6,7 @@
 #'   prior to modification to avoid changes propagating via reference.
 #' @examples
 #' if (require("hflights")) {
-#' 
+#' hflights2 <- tbl_ffdf(hflights)
 #' filter(hflights2, Month == 1, DayofMonth == 1, Dest == "DFW")
 #' head(select(hflights2, Year:DayOfWeek))
 #' summarise(hflights2, delay = mean(ArrDelay, na.rm = TRUE), n = length(ArrDelay))

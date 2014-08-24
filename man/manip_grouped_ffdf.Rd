@@ -27,21 +27,10 @@ prior to modification to avoid changes propagating via reference.}
 Data manipulation for grouped data tables.
 }
 \examples{
-data("baseball", package = "plyr")
-baseball_ffdf <- as.ffdf(baseball)
-players <- group_by(baseball_ffdf, id)
-filter(players, g == max(g))
-summarise(players, g = mean(g))
-mutate(players, year = year - min(year) + 1)
-arrange(players, id, desc(year))
-select(players, id:team)
-
-# All manip functions preserve grouping structure, except for summarise
-# (for hopefully obvious reasons)
-by_year <- mutate(players, cyear = year - min(year) + 1)
-summarise(by_year, years = max(cyear))
-
-# You can also manually ungroup:
-arrange(ungroup(by_year), id, year)
+species <-
+  iris \%>\% tbl_ffdf \%>\%
+  group_by(Species)
+filter(species, Petal.Width=max(Petal.Width))
+summarise(species, Petal.Width=mean(Petal.Width))
 }
 

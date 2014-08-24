@@ -19,6 +19,16 @@
 \item{x,y}{tbls to join}
 
 \item{...}{Included for compatibility with generic; otherwise ignored.}
+
+\item{by}{a character vector of variables to join by.  If \code{NULL}, the
+default, \code{join} will do a natural join, using all variables with
+common names across the two tables. A message lists the variables so
+that you can check they're right.}
+
+\item{copy}{If \code{x} and \code{y} are not from the same data source,
+and \code{copy} is \code{TRUE}, then \code{y} will be copied into the
+same src as \code{x}.  This allows you to join tables across srcs, but
+it is a potentially expensive operation so you must opt into it.}
 }
 \description{
 See \code{\link[dplyr]{join}} for a description of the general purpose of the

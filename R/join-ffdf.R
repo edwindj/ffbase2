@@ -3,7 +3,7 @@
 #' See \code{\link[dplyr]{join}} for a description of the general purpose of the
 #' functions.
 #'
-#' @inheritParams join
+#' @inheritParams dplyr::join
 #' @param x,y tbls to join
 #' @param ... Included for compatibility with generic; otherwise ignored.
 #' @examples
@@ -99,6 +99,7 @@ semi_join.ffdf  <- function(x, y, by=NULL, ...){
 
 #' @export
 #' @rdname join.tbl_ffdf
+#' @importFrom dplyr anti_join
 anti_join.ffdf <- function(x, y, by=NULL, ...){
   by <- by %||% common_by(x, y)
   if (!length(by))
@@ -112,7 +113,7 @@ anti_join.ffdf <- function(x, y, by=NULL, ...){
   for (i in chunk(x)){
     x_chunk <- x[i,]
     for (j in chunk(y)){
-      x_chunk <- anti_join(x_chunk, y[j,], by=by)
+      x_chunk <- dplyr::anti_join(x_chunk, y[j,], by=by)
       if (nrow(x_chunk) == 0){
         break
       }

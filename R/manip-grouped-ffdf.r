@@ -9,7 +9,7 @@
 #'   iris %>% tbl_ffdf %>%
 #'   group_by(Species)
 #
-#' filter(species, Petal.Width=max(Petal.Width))
+#' filter(species, Petal.Width == max(Petal.Width))
 #' summarise(species, Petal.Width=mean(Petal.Width))
 #'
 #' @name manip_grouped_ffdf

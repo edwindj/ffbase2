@@ -5,7 +5,7 @@
 #' @param seed random seed 
 #' @param ... 
 #' @export
-sample_data.default <- function(x, n=1e4, seed = NULL, ...){
+sample_data <- function(x, n=1e4, seed = NULL, ...){
   UseMethod("sample_data")
 }
 

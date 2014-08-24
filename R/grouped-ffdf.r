@@ -25,8 +25,16 @@ grouped_ffdf <- function(data, vars, is_sorted=FALSE, drop=TRUE) {
   }
   
   rles <- lapply(vars_s, function(v){
-    ffbase::rle_ff(.data_sorted[[v]])
-    #TODO fix/checks the rles, so that rle[[i+1]]] is a subdivision of rle[i] 
+    v <- .data_sorted[[v]]
+    lev <- levels(v)
+    if (!is.null(lev)){
+      levels(v) <- NULL
+    }
+    r <- ffbase::rle_ff(v)
+    if (!is.null(lev)){
+      levels(v) <- lev
+    }
+    r
   })
   
 #   attr(data, "vars") <- vars

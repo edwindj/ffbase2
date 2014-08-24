@@ -44,18 +44,37 @@ filter.grouped_ffdf <- function(.data, ..., env=parent.frame()) {
   }
   grouped_ffdf(
     data = data_s[res_idx,,drop=FALSE],
-    vars = groups(.data)
+    vars = groups(.data), 
+    is_sorted = TRUE
   )
 }
 
 #' @rdname manip_grouped_ffdf
 #' @export
 summarise.grouped_ffdf <- function(.data, ...){
-  # TODO check is .data$vars match current index  
-  cols <- named_dots(...)
-  stop("Not implemented")
+  input <- partial_eval(dots(...), .data, parent.frame())
+  input <- auto_name(input)
+  
+  groups <- group_size(.data)
+  vars <- deparse_all(groups(.data))
+  data_s <- data_sorted(.data)
+  
+  end <- cumsum(groups)
+  begin <- head(c(1, end+1), -1)
+  out <- list()
+
+  for (i in seq_along(groups)){
+    .data_w <- get_window(data_s, begin[i], end[i])
+    data_env <- list2env(physical(.data_w), parent = parent.frame())
+    data_env$n <- function() nrow(.data_w)
+    result <- as.list(.data_w[1,vars,drop=FALSE])
+    for (col in names(input)){
+      result[[col]] <- eval(input[[col]], data_env)
+    }
+    out[[length(out)+1]] <- do.call("data.frame", result)
+  }
   grouped_ffdf(
-    data = out,
+    data = tbl_ffdf(do.call("rbind", out)),
     vars = groups(.data)
   )
 }
@@ -67,7 +86,8 @@ mutate.grouped_ffdf <- function(.data, ..., inplace = FALSE) {
   stop("Not implemented")
   grouped_ffdf(
     data = .data,
-    vars = groups(.data)
+    vars = groups(.data),
+    is_sorted = TRUE
   )
 }
 
@@ -79,7 +99,8 @@ arrange.grouped_ffdf <- function(.data, ...) {
   idx <- ffdforder(.data[vars])
   grouped_ffdf(
     data = .data[idx,,drop=FALSE],
-    vars = groups(.data)
+    vars = groups(.data), 
+    is_sorted = TRUE
   )
 }
 
@@ -88,7 +109,21 @@ do.grouped_ffdf <- function(.data, .f, ...) {
 }
 
 ### testing...
-# ds <- tbl_ffdf(mtcars)
-# g <- group_by(ds, cyl)
-# filter(g, gear == max(gear))
-#arrange(g, am, carb)
+
+# data("baseball", package = "plyr")
+# year <-
+#   tbl_ffdf(baseball) %>%
+#   group_by(year) %>% 
+#   arrange(g)
+#  summarise(players, g = mean(g))
+#' mutate(players, year = year - min(year) + 1)
+#' arrange(players, id, desc(year))
+#' select(players, id:team)
+#'
+#' # All manip functions preserve grouping structure, except for summarise
+#' # (for hopefully obvious reasons)
+#' by_year <- mutate(players, cyear = year - min(year) + 1)
+#' summarise(by_year, years = max(cyear))
+#'
+#' # You can also manually ungroup:
+#' arrange(ungroup(by_year), id, year)

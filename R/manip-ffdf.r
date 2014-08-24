@@ -97,9 +97,8 @@ mutate.tbl_ffdf <- function(.data, ...) {
 #' @rdname manip_ffdf
 #' @export
 arrange.ffdf <- function(.data, ...) {
-  vars <- dots(...)
-  vars <- sapply(vars, function(v){substitute(.data$v, list(v=v))})
-  idx <- eval(substitute(do.call("fforder", vars)))
+  vars <- select_vars(names(.data), ..., env = parent.frame())
+  idx <- ffdforder(.data[vars])
   .data[idx,,drop=FALSE]
 }
 
@@ -130,9 +129,11 @@ select.tbl_ffdf <- function(.data, ...) {
 #' @rdname manip_ffdf
 #' @export
 rename.ffdf <- function(.data, ...) {
-  vars <- rename_vars(names(.data), ..., env = parent.frame(),
-                      include = as.character(groups(.data)))
-  setNames(.data, vars)
+  vars <- rename_vars(names(.data), ...)
+  # bug in ff: setting names does not changed the physical names so work around it
+  l <- physical(.data)
+  names(l) <- names(vars)
+  do.call(ffdf, l)
 }
 
 

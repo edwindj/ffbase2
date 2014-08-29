@@ -11,8 +11,12 @@ Work in progress!
 
 ```S
 
+iris_f <- tbl_ffdf(iris)
+# or equivalently iris_f <- as.ffdf(iris)
+
 species <- 
-   tbl_ffdf(iris) %>%
+   iris_f %>%
    group_by(Species) %>%
    summarise(petal_width = sum(Petal.Width))
 ```
+

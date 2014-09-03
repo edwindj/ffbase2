@@ -6,6 +6,7 @@ Next version of `ffbase`
 
 Work in progress!
 
+[![Build Status](https://travis-ci.org/edwindj/ffbase2.svg?branch=master)](https://travis-ci.org/edwindj/ffbase2)
 
 ## Usage
 

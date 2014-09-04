@@ -21,21 +21,16 @@ NULL
 #' @export
 filter.grouped_ffdf <- function(.data, ..., env=parent.frame()) {
   expr <- and_expr(dots(...))
-  groups <- group_size(.data)
-  data_s <- data_sorted(.data)
   
-  end <- cumsum(groups)
-  begin <- head(c(1, end+1), -1)
-  res_idx <- NULL
-  
-  for (i in seq_along(groups)){
-    .data_w <- get_window(data_s, begin[i], end[i])
-    idx <- ffwhich(.data_w, as.expression(expr), envir = env)
-    idx[, add=TRUE] <- begin[i] - 1L
-    res_idx <- ffappend(res_idx, idx)
+  out <- NULL
+  filter_q <- substitute(filter(ch, expr))
+  data_s <- data_sorted(.data)  
+  for (i in grouped_chunks(.data)){
+    ch <- grouped_df(data_s[i,,drop=FALSE], groups(.data))
+    out <- ffdfappend(out, eval(filter_q, list(ch=ch), env))
   }
   grouped_ffdf(
-    data = data_s[res_idx,,drop=FALSE],
+    data = out,
     vars = groups(.data), 
     is_sorted = TRUE
   )
@@ -43,41 +38,31 @@ filter.grouped_ffdf <- function(.data, ..., env=parent.frame()) {
 
 #' @rdname manip_grouped_ffdf
 #' @export
-summarise.grouped_ffdf <- function(.data, ...){
-  input <- partial_eval(dots(...), .data, parent.frame())
-  input <- auto_name(input)
-  
-  groups <- group_size(.data)
-  vars <- deparse_all(groups(.data))
-  data_s <- data_sorted(.data)
-  
-  end <- cumsum(groups)
-  begin <- head(c(1, end+1), -1)
-  out <- list()
-
-  for (i in seq_along(groups)){
-    .data_w <- get_window(data_s, begin[i], end[i])
-    data_env <- list2env(physical(.data_w), parent = parent.frame())
-    data_env$n <- function() nrow(.data_w)
-    result <- as.list(.data_w[1,vars,drop=FALSE])
-    for (col in names(input)){
-      result[[col]] <- eval(input[[col]], data_env)
-    }
-    out[[length(out)+1]] <- do.call("data.frame", result)
+summarise.grouped_ffdf <- function(.data, ..., env=parent.frame()){
+  out <- NULL
+  # TODO filter out unneeded variables...
+  summarise_q <- substitute(summarise(.ch, ...))
+  data_s <- data_sorted(.data)  
+  for (i in grouped_chunks(.data)){
+    ch <- grouped_df(data_s[i,,drop=FALSE], groups(.data))
+    out <- ffdfappend(out, eval(summarise_q, list(.ch=ch), env))
   }
-  grouped_ffdf(
-    data = tbl_ffdf(do.call("rbind", out)),
-    vars = groups(.data)
-  )
+  out
 }
 
 #' @rdname manip_grouped_ffdf
 #' @export
-mutate.grouped_ffdf <- function(.data, ..., inplace = FALSE) {
+mutate.grouped_ffdf <- function(.data, ..., inplace = FALSE, env=parent.frame()) {
   if (!inplace) .data <- clone(.data)
-  stop("Not implemented")
+  out <- NULL
+  mutate_q <- substitute(mutate(.ch, ...))
+  data_s <- data_sorted(.data)  
+  for (i in grouped_chunks(.data)){
+    ch <- grouped_df(data_s[i,,drop=FALSE], groups(.data))
+    out <- ffdfappend(out, eval(mutate_q, list(.ch=ch), env))
+  }
   grouped_ffdf(
-    data = .data,
+    data = out,
     vars = groups(.data),
     is_sorted = TRUE
   )
@@ -98,19 +83,31 @@ arrange.grouped_ffdf <- function(.data, ...) {
 
 #' @export
 do.grouped_ffdf <- function(.data, .f, ...) {
+  out <- NULL
+  do_q <- substitute(do(.ch, ...))
+  data_s <- data_sorted(.data)  
+  for (i in grouped_chunks(.data)){
+    ch <- grouped_df(data_s[i,,drop=FALSE], groups(.data))
+    out <- ffdfappend(out, eval(do_q, list(.ch=ch), env))
+  }
+  grouped_ffdf(
+    data = out,
+    vars = groups(.data),
+    is_sorted = TRUE
+  )
 }
 
 ### testing...
 
 # data("baseball", package = "plyr")
-# year <-
-#   tbl_ffdf(baseball) %>%
-#   group_by(year) %>% 
-#   arrange(g)
-#  summarise(players, g = mean(g))
-#' mutate(players, year = year - min(year) + 1)
-#' arrange(players, id, desc(year))
-#' select(players, id:team)
+# players <-
+# tbl_ffdf(baseball) %>%
+# group_by(id) %>%
+# filter(g==max(g))
+# summarise(players, g = mean(g))
+# mutate(players, year = year - min(year) + 1)
+# arrange(players, id, desc(year))
+# select(players, id:team)
 #'
 #' # All manip functions preserve grouping structure, except for summarise
 #' # (for hopefully obvious reasons)

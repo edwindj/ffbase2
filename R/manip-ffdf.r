@@ -31,10 +31,10 @@ and_expr <- function(exprs) {
 #' @rdname manip_ffdf
 #' @export
 #' @importFrom ffbase ffwhich
-filter.ffdf <- function(.data, ..., env=parent.frame()) {
+filter.ffdf <- function(.data, ..., env=parent.frame()){
   expr <- and_expr(dots(...))
   idx <- ffwhich(.data, as.expression(expr), envir=env)
-  .data[idx, ]
+  .data[idx,,drop=FALSE]
 }
 
 #' @rdname manip_ffdf

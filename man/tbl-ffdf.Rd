@@ -10,7 +10,7 @@
 \alias{tbl_vars.tbl_ffdf}
 \title{Create a ffdf tbl object}
 \usage{
-tbl_ffdf(data)
+tbl_ffdf(data, src = NULL, from = deparse(substitute(data)), ...)
 
 \method{as.tbl}{ffdf}(x, ...)
 
@@ -29,9 +29,9 @@ tbl_ffdf(data)
 \arguments{
 \item{data}{a ffdf data.frame, will be converted to ffdf using as.ffdf}
 
-\item{x}{any \R object.}
-
 \item{...}{additional arguments to be passed to or from methods.}
+
+\item{x}{any \R object.}
 
 \item{row.names}{\code{NULL} or a character vector giving the row
     names for the data frame.  Missing values are not allowed.}

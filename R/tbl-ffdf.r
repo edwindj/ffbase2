@@ -7,7 +7,11 @@
 #' ds <- tbl_ffdf(mtcars)
 #' ds
 #' @rdname tbl-ffdf
-tbl_ffdf <- function(data) {
+tbl_ffdf <- function(data, src=NULL, from=deparse(substitute(data)), ...) {
+  if (!missing(src)){
+    src_f <- src_ffdf(src)
+  }
+  
   if (is.grouped_ffdf(data)) return(ungroup(data))
   
   if (!is.ffdf(data)){

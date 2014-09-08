@@ -9,9 +9,10 @@
 \usage{
 \method{filter}{grouped_ffdf}(.data, ..., env = parent.frame())
 
-\method{summarise}{grouped_ffdf}(.data, ...)
+\method{summarise}{grouped_ffdf}(.data, ..., env = parent.frame())
 
-\method{mutate}{grouped_ffdf}(.data, ..., inplace = FALSE)
+\method{mutate}{grouped_ffdf}(.data, ..., inplace = FALSE,
+  env = parent.frame())
 
 \method{arrange}{grouped_ffdf}(.data, ...)
 }

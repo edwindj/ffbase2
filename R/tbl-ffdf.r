@@ -21,12 +21,16 @@
 #' @rdname tbl-ffdf
 tbl_ffdf <- function(data, src=getOption("fftempdir"), name=deparse(substitute(data)), ...) {
   src_f <- src_ffdf(src)
+  
   if (!missing(src)){
     if (!missing(data)){
       copy_to.src_ffdf(src_f, data, name=name, ... )
     }
-    return(src_load_tbl(src_f, name))
+    data = load_tbl(src_f, name)
+  } else {
+    name <- NULL
   }
+  
   if (is.grouped_ffdf(data)) return(ungroup(data))
   
   if (!is.ffdf(data)){
@@ -39,7 +43,7 @@ tbl_ffdf <- function(data, src=getOption("fftempdir"), name=deparse(substitute(d
     # needed otherwise ff will start to act strangely
     rownames(data) <- NULL
   } 
-  structure(data, class = c("tbl_ffdf", "tbl", class(data)), src=src_f)
+  structure(data, class = c("tbl_ffdf", "tbl", class(data)), src=src_f, name=name)
 }
 
 #' @export
@@ -70,9 +74,12 @@ as.data.frame.tbl_ffdf <- function(x, row.names = NULL, optional = FALSE, ...) {
 #' @export
 #' @rdname tbl-ffdf
 print.tbl_ffdf <- function(x, ..., n=NULL) {
-  cat("Source:     ffdf ", dim_desc(x), "\n", sep = "")
+  open(x) # prevent screen printing
+  src <- attr(x, "src")
+  cat("Source:     ffdf ('",src$path,"/",attr(x, "name", exact=TRUE),"') ", dim_desc(x), "\n", sep = "")
   cat("\n")
   trunc_mat(x, n=n)
+  close(x)
 }
 
 #' @export

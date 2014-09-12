@@ -4,16 +4,19 @@
 #' @param path \code{character} directory path
 #' @export
 src_ffdf <- function(path, ...){
+  if (inherits(path, "src_ffdf")){
+    return(path)
+  }
   assert_that(is.string(path))
   
   dir.create(path, showWarnings = FALSE, recursive = TRUE)
-  temp_path <- file.path(path, ".temp")
-  dir.create(temp_path, showWarnings = FALSE, recursive = TRUE)
+  #temp_path <- file.path(path, ".temp")
+  #dir.create(temp_path, showWarnings = FALSE, recursive = TRUE)
   
   structure(
     list(
       path = path
-    , temp_path = temp_path
+    #, temp_path = temp_path
     )
   , class=c("src_ffdf", "src")
   )
@@ -27,19 +30,25 @@ format.src_ffdf <- function(x, ...){
 
 #' @export
 src_tbls.src_ffdf <- function(x){
-  # need to filter out table names.
-  list.dirs(x$path, full.names=FALSE, recursive = FALSE)
+  dirname(list.files(x$path, "schema.Rds", recursive = TRUE))
+}
+
+#' @export
+tbl.src_ffdf <- function(src, from, ...){
+  tbl_ffdf(src=src, name=from, ...)
 }
 
 load_tbl <- function(src, name, ...){
   table_schema <- file.path(src$path, name, "schema.Rds")
   tabl <- readRDS(table_schema)
-  tbl_ffdf(tabl)
+  tabl
 }
 
 delete_tbl <- function(src, name, ...){
-  x <- load_tbl(src, name)
-  delete(x) # destroys any memorymappings
+  try({
+    x <- load_tbl(src, name)
+    delete(x) # destroy any memorymappings
+  }, silent=T)
   table_path <- file.path(src$path, name)
   unlink(table_path, recursive = T, force = TRUE)
 }

@@ -4,7 +4,7 @@
 #' It also allows for storing ffdf object in directories/src or retrieving
 #' a specific ffdf from a source.
 #' 
-#' When \code{data} and \code{src} are specified a \link{\code{copy_to}} 
+#' When \code{data} and \code{src} are specified a \code{\link{copy_to}} 
 #' will be executed.
 #' When \code{src} and \code{from} are specified an \code{ffdf} will be loaded
 #' from disk.
@@ -43,7 +43,9 @@ tbl_ffdf <- function(data, src=getOption("fftempdir"), name=deparse(substitute(d
     # needed otherwise ff will start to act strangely
     rownames(data) <- NULL
   } 
-  structure(data, class = c("tbl_ffdf", "tbl", class(data)), src=src_f, name=name)
+  structure( data, class = c("tbl_ffdf", "tbl", class(data))
+           , src = src_f
+           , name = name)
 }
 
 #' @export
@@ -82,10 +84,11 @@ print.tbl_ffdf <- function(x, ..., n=NULL) {
   close(x)
 }
 
-#' @export
 #' @rdname tbl-ffdf
+#' @export
 head.tbl_ffdf <- function(x, n=6L, ...) x[seq_len(n),, drop=FALSE] # NOTE no negative n supported!
 
 #' @export
 #' @rdname tbl-ffdf
+#' @importFrom utils tail
 tail.tbl_ffdf <- function(x, n=6L, ...) tail(x, n=n, ...)

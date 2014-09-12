@@ -1,4 +1,4 @@
 #' @docType package
 #' ffbase2
-#' @import assertthat
+#' @import assertthat dplyr
 NULL

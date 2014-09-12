@@ -1,4 +1,3 @@
-# TODO check this
 #' @export
 collapse.tbl_ffdf <- function(x, ...) {
   x

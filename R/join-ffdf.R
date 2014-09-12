@@ -97,7 +97,6 @@ semi_join.ffdf  <- function(x, y, by=NULL, ...){
 
 #' @export
 #' @rdname join.tbl_ffdf
-#' @importFrom dplyr anti_join
 anti_join.ffdf <- function(x, y, by=NULL, ...){
   by <- by %||% common_by(x, y)
   if (!length(by))

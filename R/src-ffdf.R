@@ -38,6 +38,9 @@ tbl.src_ffdf <- function(src, from, ...){
   tbl_ffdf(src=src, name=from, ...)
 }
 
+write_schema <- function(x, path, ...){
+}
+
 load_tbl <- function(src, name, ...){
   table_schema <- file.path(src$path, name, "schema.Rds")
   tabl <- readRDS(table_schema)

@@ -52,7 +52,7 @@ It also allows for storing ffdf object in directories/src or retrieving
 a specific ffdf from a source.
 }
 \details{
-When \code{data} and \code{src} are specified a \link{\code{copy_to}}
+When \code{data} and \code{src} are specified a \code{\link{copy_to}}
 will be executed.
 When \code{src} and \code{from} are specified an \code{ffdf} will be loaded
 from disk.

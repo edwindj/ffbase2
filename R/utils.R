@@ -16,6 +16,7 @@ get_window <- function(x, begin=1L, end=nrow(x)){
 }
 
 # get chunks that always include whole groups
+#' @importFrom utils head
 grouped_chunks <- function(x, groups=group_size(x), chunk_size=get_chunk_size(x)){
   N <- sum(groups)
   offset <- cumsum(groups)

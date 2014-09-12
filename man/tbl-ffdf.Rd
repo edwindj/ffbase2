@@ -10,7 +10,8 @@
 \alias{tbl_vars.tbl_ffdf}
 \title{Create a ffdf tbl object}
 \usage{
-tbl_ffdf(data, src = NULL, from = deparse(substitute(data)), ...)
+tbl_ffdf(data, src = getOption("fftempdir"),
+  name = deparse(substitute(data)), ...)
 
 \method{as.tbl}{ffdf}(x, ...)
 
@@ -29,6 +30,11 @@ tbl_ffdf(data, src = NULL, from = deparse(substitute(data)), ...)
 \arguments{
 \item{data}{a ffdf data.frame, will be converted to ffdf using as.ffdf}
 
+\item{src}{(optional), if a directory name is specified then the ffdf will be
+saved there}
+
+\item{name}{table to be loaded}
+
 \item{...}{additional arguments to be passed to or from methods.}
 
 \item{x}{any \R object.}
@@ -41,7 +47,17 @@ tbl_ffdf(data, src = NULL, from = deparse(substitute(data)), ...)
     \code{\link{make.names}}) is optional.}
 }
 \description{
-A ffdf source wraps a local ffdf.
+This wraps a 'normal' ffdf object so it can be used with dplyr.
+It also allows for storing ffdf object in directories/src or retrieving
+a specific ffdf from a source.
+}
+\details{
+When \code{data} and \code{src} are specified a \link{\code{copy_to}}
+will be executed.
+When \code{src} and \code{from} are specified an \code{ffdf} will be loaded
+from disk.
+When \code{data} is specified without \code{src} a temporary ffdf will be created
+in \code{fftempdir}.
 }
 \examples{
 ds <- tbl_ffdf(mtcars)

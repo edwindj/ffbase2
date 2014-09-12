@@ -6,9 +6,9 @@
 src_ffdf <- function(path, ...){
   assert_that(is.string(path))
   
-  dir.create(path, recursive = TRUE)
+  dir.create(path, showWarnings = FALSE, recursive = TRUE)
   temp_path <- file.path(path, ".temp")
-  dir.create(temp_path, recursive = TRUE)
+  dir.create(temp_path, showWarnings = FALSE, recursive = TRUE)
   
   structure(
     list(
@@ -19,7 +19,27 @@ src_ffdf <- function(path, ...){
   )
 }
 
-src_tbls.ffdf <- function(x){
+#' @export
+format.src_ffdf <- function(x, ...){
+  tbls <- paste(src_tbls(x), collapse = ", ")
+  paste0("src: ffdf ['",x$path,"']\n","tbls: ", tbls)
+}
+
+#' @export
+src_tbls.src_ffdf <- function(x){
   # need to filter out table names.
   list.dirs(x$path, full.names=FALSE, recursive = FALSE)
+}
+
+load_tbl <- function(src, name, ...){
+  table_schema <- file.path(src$path, name, "schema.Rds")
+  tabl <- readRDS(table_schema)
+  tbl_ffdf(tabl)
+}
+
+delete_tbl <- function(src, name, ...){
+  x <- load_tbl(src, name)
+  delete(x) # destroys any memorymappings
+  table_path <- file.path(src$path, name)
+  unlink(table_path, recursive = T, force = TRUE)
 }

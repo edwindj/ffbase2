@@ -1,17 +1,32 @@
 #' Create a ffdf tbl object
 #'
-#' A ffdf source wraps a local ffdf.
+#' This wraps a 'normal' ffdf object so it can be used with dplyr.
+#' It also allows for storing ffdf object in directories/src or retrieving
+#' a specific ffdf from a source.
+#' 
+#' When \code{data} and \code{src} are specified a \link{\code{copy_to}} 
+#' will be executed.
+#' When \code{src} and \code{from} are specified an \code{ffdf} will be loaded
+#' from disk.
+#' When \code{data} is specified without \code{src} a temporary ffdf will be created
+#' in \code{fftempdir}.
 #' @export
 #' @param data a ffdf data.frame, will be converted to ffdf using as.ffdf
+#' @param src (optional), if a directory name is specified then the ffdf will be 
+#' saved there
+#' @param name table to be loaded
 #' @examples
 #' ds <- tbl_ffdf(mtcars)
 #' ds
 #' @rdname tbl-ffdf
-tbl_ffdf <- function(data, src=NULL, from=deparse(substitute(data)), ...) {
+tbl_ffdf <- function(data, src=getOption("fftempdir"), name=deparse(substitute(data)), ...) {
+  src_f <- src_ffdf(src)
   if (!missing(src)){
-    src_f <- src_ffdf(src)
+    if (!missing(data)){
+      copy_to.src_ffdf(src_f, data, name=name, ... )
+    }
+    return(src_load_tbl(src_f, name))
   }
-  
   if (is.grouped_ffdf(data)) return(ungroup(data))
   
   if (!is.ffdf(data)){
@@ -24,7 +39,7 @@ tbl_ffdf <- function(data, src=NULL, from=deparse(substitute(data)), ...) {
     # needed otherwise ff will start to act strangely
     rownames(data) <- NULL
   } 
-  structure(data, class = c("tbl_ffdf", "tbl", class(data)))
+  structure(data, class = c("tbl_ffdf", "tbl", class(data)), src=src_f)
 }
 
 #' @export

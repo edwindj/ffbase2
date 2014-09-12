@@ -49,12 +49,13 @@ summarise.grouped_ffdf <- function(.data, ...){
     ch <- grouped_df(data_s[i,,drop=FALSE], groups(.data))
     out <- ffdfappend(out, eval(summarise_q, list(.ch=ch), .env))
   }
-  out
+  tbl_ffdf(out)
 }
 
 #' @rdname manip_grouped_ffdf
 #' @export
 mutate.grouped_ffdf <- function(.data, ..., inplace = FALSE) {
+  #TODO only clone columns that are named in the ...
   if (!inplace) .data <- clone(.data)
   out <- NULL
   mutate_q <- substitute(mutate(.ch, ...))

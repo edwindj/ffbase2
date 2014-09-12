@@ -19,6 +19,8 @@
 #' ds <- tbl_ffdf(mtcars)
 #' ds
 #' @rdname tbl-ffdf
+#' @importFrom ff as.ffdf
+#' @param ... not used
 tbl_ffdf <- function(data, src=getOption("fftempdir"), name=deparse(substitute(data)), ...) {
   src_f <- src_ffdf(src)
   
@@ -75,10 +77,12 @@ as.data.frame.tbl_ffdf <- function(x, row.names = NULL, optional = FALSE, ...) {
 
 #' @export
 #' @rdname tbl-ffdf
+#' @param n restrict number of rows to n
 print.tbl_ffdf <- function(x, ..., n=NULL) {
   open(x) # prevent screen printing
   src <- attr(x, "src")
-  cat("Source:     ffdf ('",src$path,"/",attr(x, "name", exact=TRUE),"') ", dim_desc(x), "\n", sep = "")
+  cat("Source:     ffdf ('",src$path,"/",attr(x, "name", exact=TRUE),"') ", 
+      dim_desc(x), "\n", sep = "")
   cat("\n")
   trunc_mat(x, n=n)
   close(x)

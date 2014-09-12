@@ -31,17 +31,19 @@ and_expr <- function(exprs) {
 #' @rdname manip_ffdf
 #' @export
 #' @importFrom ffbase ffwhich
-filter.ffdf <- function(.data, ..., env=parent.frame()){
+#' @param .env The environment in which to evaluate arguments not included in 
+#' the data. The default should suffice for ordinary usage.
+filter.ffdf <- function(.data, ..., .env=parent.frame()){
   expr <- and_expr(dots(...))
-  idx <- ffwhich(.data, as.expression(expr), envir=env)
+  idx <- ffbase::ffwhich(.data, as.expression(expr), envir=.env)
   .data[idx,,drop=FALSE]
 }
 
 #' @rdname manip_ffdf
 #' @export
-filter.tbl_ffdf <- function(.data, ..., env=parent.frame()) {
+filter.tbl_ffdf <- function(.data, ..., .env=parent.frame()) {
   tbl_ffdf(
-    filter.ffdf(.data, ..., env=env)
+    filter.ffdf(.data, ..., .env=.env)
   )
 }
 
@@ -139,12 +141,12 @@ rename.ffdf <- function(.data, ...) {
 
 #' @rdname manip_ffdf
 #' @export
-do.ffdf <- function(.data, .f, ...) {
-  list(.f(.data[,,drop=F], ...))
+do.ffdf <- function(.data, ...) {
+  tbl_ffdf(dplyr::do(as.data.frame(.data, ...)))
 }
 
 #' @rdname manip_ffdf
 #' @export
-do.tbl_ffdf <- function(.data, .f, ...) {
-  tbl_ffdf(.f(as.data.frame(.data), ...))
+do.tbl_ffdf <- function(.data, ...) {
+  tbl_ffdf(as.data.frame(.data), ...)
 }

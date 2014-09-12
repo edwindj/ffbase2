@@ -1,4 +1,5 @@
 #' @export
+#' @importFrom ff as.ff
 copy_to.src_ffdf <- function( dest, df, name=deparse(substitute(df)), force=FALSE,                              ...){
   table_path = file.path(dest$path, name)
   
@@ -29,5 +30,3 @@ copy_to.src_ffdf <- function( dest, df, name=deparse(substitute(df)), force=FALS
   tbl_ffdf(res)
 }
 
-auto_copy.tbl_ffdf <- function(x, y, copy=FALSE, ...){
-}

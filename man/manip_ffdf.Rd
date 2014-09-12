@@ -16,9 +16,9 @@
 \alias{summarise.tbl_ffdf}
 \title{Data manipulation for ffdf.}
 \usage{
-\method{filter}{ffdf}(.data, ..., env = parent.frame())
+\method{filter}{ffdf}(.data, ..., .env = parent.frame())
 
-\method{filter}{tbl_ffdf}(.data, ..., env = parent.frame())
+\method{filter}{tbl_ffdf}(.data, ..., .env = parent.frame())
 
 \method{summarise}{ffdf}(.data, ...)
 
@@ -38,9 +38,9 @@
 
 rename.ffdf(.data, ...)
 
-\method{do}{ffdf}(.data, .f, ...)
+\method{do}{ffdf}(.data, ...)
 
-\method{do}{tbl_ffdf}(.data, .f, ...)
+\method{do}{tbl_ffdf}(.data, ...)
 }
 \arguments{
 \item{.data}{a ffdf}
@@ -49,6 +49,9 @@ rename.ffdf(.data, ...)
 
 \item{inplace}{if \code{FALSE} (the default) the data frame will be copied
 prior to modification to avoid changes propagating via reference.}
+
+\item{.env}{The environment in which to evaluate arguments not included in
+the data. The default should suffice for ordinary usage.}
 }
 \description{
 Data manipulation for ffdf.

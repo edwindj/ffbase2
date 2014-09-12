@@ -2,6 +2,7 @@
 #' 
 #' An ffdf source is a directory in which ffdf tables will reside.
 #' @param path \code{character} directory path
+#' @param ... not used
 #' @export
 src_ffdf <- function(path, ...){
   if (inherits(path, "src_ffdf")){

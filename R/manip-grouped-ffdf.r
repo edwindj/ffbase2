@@ -19,15 +19,16 @@ NULL
 #' @importFrom ffbase ffappend 
 #' @importFrom ffbase ffwhich
 #' @export
-filter.grouped_ffdf <- function(.data, ..., env=parent.frame()) {
+filter.grouped_ffdf <- function(.data, ...) {
   expr <- and_expr(dots(...))
   
   out <- NULL
   filter_q <- substitute(filter(ch, expr))
   data_s <- data_sorted(.data)  
+  .env <- parent.frame()
   for (i in grouped_chunks(.data)){
     ch <- grouped_df(data_s[i,,drop=FALSE], groups(.data))
-    out <- ffdfappend(out, eval(filter_q, list(ch=ch), env))
+    out <- ffdfappend(out, eval(filter_q, list(ch=ch), .env))
   }
   grouped_ffdf(
     data = out,
@@ -38,28 +39,30 @@ filter.grouped_ffdf <- function(.data, ..., env=parent.frame()) {
 
 #' @rdname manip_grouped_ffdf
 #' @export
-summarise.grouped_ffdf <- function(.data, ..., env=parent.frame()){
+summarise.grouped_ffdf <- function(.data, ...){
   out <- NULL
   # TODO filter out unneeded variables...
   summarise_q <- substitute(summarise(.ch, ...))
   data_s <- data_sorted(.data)  
+  .env <- parent.frame()
   for (i in grouped_chunks(.data)){
     ch <- grouped_df(data_s[i,,drop=FALSE], groups(.data))
-    out <- ffdfappend(out, eval(summarise_q, list(.ch=ch), env))
+    out <- ffdfappend(out, eval(summarise_q, list(.ch=ch), .env))
   }
   out
 }
 
 #' @rdname manip_grouped_ffdf
 #' @export
-mutate.grouped_ffdf <- function(.data, ..., inplace = FALSE, env=parent.frame()) {
+mutate.grouped_ffdf <- function(.data, ..., inplace = FALSE) {
   if (!inplace) .data <- clone(.data)
   out <- NULL
   mutate_q <- substitute(mutate(.ch, ...))
   data_s <- data_sorted(.data)  
+  .env <- parent.frame()
   for (i in grouped_chunks(.data)){
     ch <- grouped_df(data_s[i,,drop=FALSE], groups(.data))
-    out <- ffdfappend(out, eval(mutate_q, list(.ch=ch), env))
+    out <- ffdfappend(out, eval(mutate_q, list(.ch=ch), .env))
   }
   grouped_ffdf(
     data = out,
@@ -82,13 +85,14 @@ arrange.grouped_ffdf <- function(.data, ...) {
 }
 
 #' @export
-do.grouped_ffdf <- function(.data, .f, ...) {
+do.grouped_ffdf <- function(.data, ...) {
   out <- NULL
   do_q <- substitute(do(.ch, ...))
-  data_s <- data_sorted(.data)  
+  data_s <- data_sorted(.data)
+  .env <- parent.frame()
   for (i in grouped_chunks(.data)){
     ch <- grouped_df(data_s[i,,drop=FALSE], groups(.data))
-    out <- ffdfappend(out, eval(do_q, list(.ch=ch), env))
+    out <- ffbase::ffdfappend(out, eval(do_q, list(.ch=ch), .env))
   }
   grouped_ffdf(
     data = out,

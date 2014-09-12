@@ -7,12 +7,11 @@
 \alias{summarise.grouped_ffdf}
 \title{Data manipulation for grouped data tables.}
 \usage{
-\method{filter}{grouped_ffdf}(.data, ..., env = parent.frame())
+\method{filter}{grouped_ffdf}(.data, ...)
 
-\method{summarise}{grouped_ffdf}(.data, ..., env = parent.frame())
+\method{summarise}{grouped_ffdf}(.data, ...)
 
-\method{mutate}{grouped_ffdf}(.data, ..., inplace = FALSE,
-  env = parent.frame())
+\method{mutate}{grouped_ffdf}(.data, ..., inplace = FALSE)
 
 \method{arrange}{grouped_ffdf}(.data, ...)
 }

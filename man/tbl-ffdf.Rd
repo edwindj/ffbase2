@@ -35,7 +35,9 @@ saved there}
 
 \item{name}{table to be loaded}
 
-\item{...}{additional arguments to be passed to or from methods.}
+\item{...}{not used}
+
+\item{n}{restrict number of rows to n}
 
 \item{x}{any \R object.}
 

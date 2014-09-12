@@ -7,6 +7,8 @@ src_ffdf(path, ...)
 }
 \arguments{
 \item{path}{\code{character} directory path}
+
+\item{...}{not used}
 }
 \description{
 An ffdf source is a directory in which ffdf tables will reside.

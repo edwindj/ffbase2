@@ -19,7 +19,7 @@ copy_to.src_ffdf <- function( dest, df, name=deparse(substitute(df)), force=FALS
       cl <- factor(cl)
     }
     col_path <- file.path(table_path, paste0(n, ".ff"))
-    as.ff(cl, filename=col_path, overwrite=TRUE)
+    ff::as.ff(cl, filename=col_path, overwrite=T)
   })
   names(columns) <- names(df)
   res <- do.call(ffdf, columns)
@@ -27,6 +27,6 @@ copy_to.src_ffdf <- function( dest, df, name=deparse(substitute(df)), force=FALS
   
   saveRDS(res, file = file.path(table_path, "schema.Rds"))
   # may be save a yaml schema?
-  tbl_ffdf(res)
+  tbl(dest, from=name)
 }
 

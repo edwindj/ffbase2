@@ -39,6 +39,18 @@ tbl.src_ffdf <- function(src, from, ...){
   tbl_ffdf(src=src, name=from, ...)
 }
 
+#' @export
+same_src.src_ffdf <- function(x,y){
+  assert_that(inherits(y, "src_ffdf"))
+  x$path == y$path
+}
+
+#'@export
+same_src.tbl_ffdf <- function(x, y){
+  assert_that(inherits(y, "tbl_ffdf"))
+  same_src(attr(x, "src"), attr(y, "src"))
+}
+
 write_schema <- function(x, path, ...){
 }
 

@@ -3,4 +3,5 @@
 examples
 .travis.yml
 TODO.md
+README.Rmd
 ^db

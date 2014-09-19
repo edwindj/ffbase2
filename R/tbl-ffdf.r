@@ -86,6 +86,7 @@ print.tbl_ffdf <- function(x, ..., n=NULL) {
   cat("\n")
   trunc_mat(x, n=n)
   close(x)
+  invisible()
 }
 
 #' @rdname tbl-ffdf

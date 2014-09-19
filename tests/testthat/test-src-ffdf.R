@@ -1,6 +1,6 @@
 context("src")
 
-DB = "testdb"
+DB = tempdir() # "testdb"
 
 test_that("Create",{
   unlink(DB, recursive = T, force = T)

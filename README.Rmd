@@ -42,22 +42,40 @@ species <-
    summarise(petal_width = sum(Petal.Width))
 ```
 
+A `tbl_ffdf` is also a `ffdf`
+```{r}
+iris_f <- tbl_ffdf(iris)
+is.ffdf(iris_f)
+```
+
 Use `src_ffdf` for storing your data in a directory 
 ```{r}
 library(ffbase2)
 # store a ffdf data.frame in "db_ff"" directory
 cars <- tbl_ffdf(mtcars, src="db_ff", name="cars")
+print(cars, n=2)
+```
 
+To retrieve tables from a ffdf source, use `src_ffdf`
+```{r}
 src <- src_ffdf("db_ff")
-print(src)
+print(src) 
 
-#retrieve table from directory 
-my_tbl <- tbl(src, from="cars")
-print(my_tbl, n=2)
+# what tables are available?
+src_tbls(src)
+
+#retrieve table from src 
+cars <- tbl(src, from="cars") # or equivalently tbl_ffdf(src=src, name="cars")
+print(cars, n=2)
 ```
 
 Use `copy_to` to add data to a `src_ffdf`
 ```{r}
-
+src <- src_ffdf("db_ff")
+copy_to(src, iris) # or equivalenty tbl_ffdf(iris, src)
+src_tbls(src)
 ```
 
+```{r, echo=FALSE}
+unlink("db_ff",recursive = T, force = T)
+```

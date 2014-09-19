@@ -84,7 +84,15 @@ summarise.tbl_ffdf <- function(.data, ...) {
 #' @export
 #' @importFrom ffbase transform.ffdf
 mutate.ffdf <- function(.data, ..., inplace = FALSE) {
-  if (!inplace) .data <- clone(.data)
+  if (!inplace){
+    # only clone those vectors that are overwritten
+    nms <- names(named_dots(...))
+    nms <- nms[nms %in% names(.data)]
+    if (length(nms)){
+      .data[nms] <- clone(.data[nms])
+    }
+  }
+  #TODO improve: transform does not support just defined variables
   eval(substitute(ffbase::transform.ffdf(.data, ...)))
 }
 

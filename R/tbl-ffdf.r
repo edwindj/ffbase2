@@ -80,20 +80,30 @@ as.data.frame.tbl_ffdf <- function(x, row.names = NULL, optional = FALSE, ...) {
 #' @param n restrict number of rows to n
 print.tbl_ffdf <- function(x, ..., n=NULL) {
   open(x) # prevent screen printing
+  on.exit(close(x))
+
   src <- attr(x, "src")
   cat("Source:     ffdf ('",src$path,"/",attr(x, "name", exact=TRUE),"') ", 
       dim_desc(x), "\n", sep = "")
   cat("\n")
   trunc_mat(x, n=n)
-  close(x)
-  invisible()
 }
 
 #' @rdname tbl-ffdf
 #' @export
-head.tbl_ffdf <- function(x, n=6L, ...) x[seq_len(n),, drop=FALSE] # NOTE no negative n supported!
+head.tbl_ffdf <- function(x, n=6L, ...){
+  open(x) # prevent screen printing
+  on.exit(close(x))
+
+  x[seq_len(n),, drop=FALSE] # NOTE no negative n supported!
+} 
 
 #' @export
 #' @rdname tbl-ffdf
 #' @importFrom utils tail
-tail.tbl_ffdf <- function(x, n=6L, ...) tail(x, n=n, ...)
+tail.tbl_ffdf <- function(x, n=6L, ...) {
+  open(x) # prevent screen printing
+  on.exit(close(x))
+  
+  tail(x, n=n, ...)
+}

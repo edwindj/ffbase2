@@ -26,7 +26,7 @@ devtools::install_github("edwindj/ffbase2")
 
 ## Usage
 
-
+### Creation
 Creating a tbl_ffdf: this will create/use a temporary ffdf data.frame in 
 `options("fftempdir")`.
 
@@ -54,13 +54,13 @@ Use `src_ffdf` for storing your data in a directory
 
 ```r
 library(ffbase2)
-# store a ffdf data.frame in "db_ff"" directory
-cars <- tbl_ffdf(mtcars, src="db_ff", name="cars")
+# store a ffdf data.frame in "./db_ff"" directory
+cars <- tbl_ffdf(mtcars, src="./db_ff", name="cars")
 print(cars, n=2)
 ```
 
 ```
-## Source:     ffdf ('db_ff/cars') [32 x 11]
+## Source:     ffdf ('./db_ff/cars') [32 x 11]
 ## 
 ##    mpg cyl disp  hp drat    wt  qsec vs am gear carb
 ## 1   21   6  160 110  3.9 2.620 16.46  0  1    4    4
@@ -71,12 +71,12 @@ print(cars, n=2)
 To retrieve tables from a ffdf source, use `src_ffdf`
 
 ```r
-src <- src_ffdf("db_ff")
+src <- src_ffdf("./db_ff")
 print(src) 
 ```
 
 ```
-## src: ffdf ['db_ff']
+## src: ffdf ['./db_ff']
 ## tbls: cars
 ```
 
@@ -96,7 +96,7 @@ print(cars, n=2)
 ```
 
 ```
-## Source:     ffdf ('db_ff/cars') [32 x 11]
+## Source:     ffdf ('./db_ff/cars') [32 x 11]
 ## 
 ##    mpg cyl disp  hp drat    wt  qsec vs am gear carb
 ## 1   21   6  160 110  3.9 2.620 16.46  0  1    4    4
@@ -107,12 +107,12 @@ print(cars, n=2)
 Use `copy_to` to add data to a `src_ffdf`
 
 ```r
-src <- src_ffdf("db_ff")
+src <- src_ffdf("./db_ff")
 copy_to(src, iris) # or equivalenty tbl_ffdf(iris, src)
 ```
 
 ```
-## Source:     ffdf ('db_ff/iris') [150 x 5]
+## Source:     ffdf ('./db_ff/iris') [150 x 5]
 ## 
 ##    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
 ## 1           5.1         3.5          1.4         0.2  setosa
@@ -135,5 +135,4 @@ src_tbls(src)
 ```
 ## [1] "cars" "iris"
 ```
-
 

@@ -10,7 +10,7 @@ copy_to.src_ffdf <- function( dest, df, name=deparse(substitute(df)), force=FALS
       delete_tbl(dest, name)
     } else {
       stop("Directory: '", table_path
-           , "' already exists. Use 'force=TRUE' or remove dir manually")
+           , "' already exists. Use 'force=TRUE' or remove dir manually", call.=FALSE)
     }
   }
   dir.create(table_path, showWarnings = FALSE,recursive=T)

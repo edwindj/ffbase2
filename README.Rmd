@@ -51,14 +51,14 @@ is.ffdf(iris_f)
 Use `src_ffdf` for storing your data in a directory 
 ```{r}
 library(ffbase2)
-# store a ffdf data.frame in "db_ff"" directory
-cars <- tbl_ffdf(mtcars, src="db_ff", name="cars")
+# store a ffdf data.frame in "./db_ff"" directory
+cars <- tbl_ffdf(mtcars, src="./db_ff", name="cars")
 print(cars, n=2)
 ```
 
 To retrieve tables from a ffdf source, use `src_ffdf`
 ```{r}
-src <- src_ffdf("db_ff")
+src <- src_ffdf("./db_ff")
 print(src) 
 
 # what tables are available?
@@ -71,7 +71,7 @@ print(cars, n=2)
 
 Use `copy_to` to add data to a `src_ffdf`
 ```{r}
-src <- src_ffdf("db_ff")
+src <- src_ffdf("./db_ff")
 copy_to(src, iris) # or equivalenty tbl_ffdf(iris, src)
 src_tbls(src)
 ```

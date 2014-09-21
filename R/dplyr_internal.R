@@ -8,9 +8,10 @@
 # - common_by
 # - %||%
 # - sample_n_basic
+# - names2
 # Generated with:
 # borrow_from_dplyr(dots, commas, named_dots, deparse_all, auto_name, 
-#     auto_names, common_by, `%||%`, sample_n_basic)
+#     auto_names, common_by, `%||%`, sample_n_basic, names2)
 dots <-
 function (...) 
 {
@@ -69,4 +70,9 @@ function (tbl, size, replace = FALSE, weight = NULL)
     check_size(size, n, replace)
     idx <- sample.int(n, size, replace = replace, prob = weight)
     tbl[idx, , drop = FALSE]
+}
+names2 <-
+function (x) 
+{
+    names(x) %||% rep("", length(x))
 }

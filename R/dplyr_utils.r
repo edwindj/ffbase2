@@ -6,12 +6,9 @@ borrow_from_dplyr <- function(...){
   writeLines("# Generated with:", f)
   writeLines(paste0("# ", deparse(sys.call())), f)
   close(f)
-  #dump("borrow_from_dplyr", file="R/dplyr_internal.R", append=TRUE)
-  
-  ns <- getNamespace("dplyr")
   dump(args, file = "R/dplyr_internal.R", append=TRUE,
        envir=getNamespace("dplyr"))
 }
 
 # borrow_from_dplyr( dots, commas, named_dots, deparse_all, auto_name, auto_names,
-#                    common_by, `%||%`, sample_n_basic)
+#                    common_by, `%||%`, sample_n_basic, names2)

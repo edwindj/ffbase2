@@ -11,7 +11,7 @@ sample_n.ffdf <- function(tbl, size, replace=FALSE, weight=NULL
   #TODO Hm, should this be a data.frame or a ffdf frame...
   #TODO move dplyr sample_n_basic into ffbase2
   #TODO make this one more efficient by using a ff(integer) vector for selecting.
-  tbl_ffdf(dplyr:::sample_n_basic(tbl, size, replace=replace, weight=weight))
+  tbl_ffdf(sample_n_basic(tbl, size, replace=replace, weight=weight))
 }
 
 #' @export

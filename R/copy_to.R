@@ -7,7 +7,9 @@ copy_to.src_ffdf <- function( dest, df, name=deparse(substitute(df)), force=FALS
     #TODO use same_src for checking if dest and df are not the same: otherwise
     #result is that table is deleted...
     if (force){
-      delete_tbl(dest, name)
+      if (!is.ffdf(df)){
+        delete_tbl(dest, name)
+      }
     } else {
       stop("Directory: '", table_path
            , "' already exists. Use 'force=TRUE' or remove dir manually", call.=FALSE)

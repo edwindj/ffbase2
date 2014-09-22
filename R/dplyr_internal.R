@@ -7,14 +7,12 @@
 # - auto_names
 # - common_by
 # - %||%
-# - sample_n_basic
 # - names2
 # - check_size
 # - check_weight
 # Generated with:
 # borrow_from_dplyr(dots, commas, named_dots, deparse_all, auto_name, 
-#     auto_names, common_by, `%||%`, sample_n_basic, names2, check_size, 
-#     check_weight)
+#     auto_names, common_by, `%||%`, names2, check_size, check_weight)
 dots <-
 function (...) 
 {
@@ -63,17 +61,6 @@ function (x, y)
 `%||%` <-
 function (x, y) 
 if (is.null(x)) y else x
-sample_n_basic <-
-function (tbl, size, replace = FALSE, weight = NULL) 
-{
-    n <- nrow(tbl)
-    weight <- check_weight(weight, n)
-    assert_that(is.numeric(size), length(size) == 1, size >= 
-        0)
-    check_size(size, n, replace)
-    idx <- sample.int(n, size, replace = replace, prob = weight)
-    tbl[idx, , drop = FALSE]
-}
 names2 <-
 function (x) 
 {

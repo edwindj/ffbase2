@@ -11,5 +11,5 @@ borrow_from_dplyr <- function(...){
 }
 
 # borrow_from_dplyr( dots, commas, named_dots, deparse_all, auto_name, auto_names,
-#                    common_by, `%||%`, sample_n_basic, names2, check_size,
+#                    common_by, `%||%`, names2, check_size,
 #                    check_weight)

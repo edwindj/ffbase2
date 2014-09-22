@@ -9,9 +9,12 @@
 # - %||%
 # - sample_n_basic
 # - names2
+# - check_size
+# - check_weight
 # Generated with:
 # borrow_from_dplyr(dots, commas, named_dots, deparse_all, auto_name, 
-#     auto_names, common_by, `%||%`, sample_n_basic, names2)
+#     auto_names, common_by, `%||%`, sample_n_basic, names2, check_size, 
+#     check_weight)
 dots <-
 function (...) 
 {
@@ -75,4 +78,29 @@ names2 <-
 function (x) 
 {
     names(x) %||% rep("", length(x))
+}
+check_size <-
+function (size, n, replace = FALSE) 
+{
+    if (size <= n || replace) 
+        return()
+    stop("Sample size (", size, ") greater than population size (", 
+        n, ").", " Do you want replace = TRUE?", call. = FALSE)
+}
+check_weight <-
+function (x, n) 
+{
+    if (is.null(x)) 
+        return()
+    if (!is.numeric(x)) {
+        stop("Weights must be numeric", call. = FALSE)
+    }
+    if (any(x < 0)) {
+        stop("Weights must all be greater than 0", call. = FALSE)
+    }
+    if (length(x) != n) {
+        stop("Weights must be same length as data (", n, ")", 
+            call. = FALSE)
+    }
+    x/sum(x)
 }

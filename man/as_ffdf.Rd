@@ -10,6 +10,8 @@ as_ffdf(x, character_to_factor = TRUE, ...)
 
 \item{character_to_factor}{\code{logical} will coerce a character to factor,
 since those types cannot be stored in \code{ff}.}
+
+\item{...}{given to as.ffdf}
 }
 \description{
 Improved version of as.ffdf:

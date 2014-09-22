@@ -8,6 +8,7 @@
 #' @param x a data.frame or coercable to a data.frame
 #' @param character_to_factor \code{logical} will coerce a character to factor, 
 #' since those types cannot be stored in \code{ff}.
+#' @param ... given to as.ffdf
 as_ffdf <- function(x, character_to_factor=TRUE, ...){
   if (is.ffdf(x)){
     return(x)

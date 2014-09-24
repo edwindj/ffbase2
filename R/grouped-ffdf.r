@@ -8,6 +8,7 @@
 #' @param vars a list of quoted variables.
 #' @param is_sorted if \code{data} is sorted on \code{vars} is_sorted should be
 #'  set to \code{TRUE} to avoid unnecesary sorting
+#' @export
 grouped_ffdf <- function(data, vars, is_sorted=FALSE) {
   assert_that(is.ffdf(data))
   is_name <- vapply(vars, is.name, logical(1))

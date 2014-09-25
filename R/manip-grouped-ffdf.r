@@ -87,19 +87,16 @@ arrange.grouped_ffdf <- function(.data, ...) {
 
 #' @export
 do.grouped_ffdf <- function(.data, ...) {
-  out <- NULL
+  out <- list()
   do_q <- substitute(do(.ch, ...))
   data_s <- data_sorted(.data)
   .env <- parent.frame()
   for (i in grouped_chunks(.data)){
     ch <- grouped_df(data_s[i,,drop=FALSE], groups(.data))
-    out <- ffbase::ffdfappend(out, eval(do_q, list(.ch=ch), .env))
+    out_ch <- eval(do_q, list(.ch=ch), .env)
+    out[[length(out)+1]] <- out_ch
   }
-  grouped_ffdf(
-    data = out,
-    vars = groups(.data),
-    is_sorted = TRUE
-  )
+  do.call(rbind, out)
 }
 
 ### testing...
@@ -121,3 +118,8 @@ do.grouped_ffdf <- function(.data, ...) {
 #'
 #' # You can also manually ungroup:
 #' arrange(ungroup(by_year), id, year)
+
+#   mtcars %>%
+#   tbl_ffdf() %>%
+#   group_by(cyl) %>% 
+#   do(mod = lm(mpg ~ disp, data=.))

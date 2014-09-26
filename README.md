@@ -10,7 +10,7 @@ Working, but documentation is not yet CRAN ready...
 
 ## Install
 
-`ffbase` is currently only available from github. To install it, run the following
+`ffbase2` is currently only available from github. To install it, run the following
 script.
 ```S
 # install.packages("devtools")

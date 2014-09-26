@@ -18,7 +18,7 @@ grouped_ffdf <- function(data, vars, is_sorted=FALSE) {
   }
   
   vars_s <- deparse_all(vars)
-  
+  open(data)
   if (is_sorted){
     .data_sorted <- data
   } else {
@@ -41,7 +41,6 @@ grouped_ffdf <- function(data, vars, is_sorted=FALSE) {
   
 #   attr(data, "vars") <- vars
 #   attr(data, "indices") <- list(order=o, rles=rles, n_groups=rles[[length(rles)]])
-
   structure( data
            , class = c("grouped_ffdf", "tbl_ffdf", "tbl", "ffdf")
            , vars = vars
@@ -100,7 +99,6 @@ regroup.grouped_ffdf <- function(x, value) {
 regroup.ffdf <- function(x, value) {
   grouped_ffdf(x, unname(value))
 }
-
 
 data_sorted <- function(x){
   attr(x, "indices")$data_sorted

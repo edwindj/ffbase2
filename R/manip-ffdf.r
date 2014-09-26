@@ -104,11 +104,22 @@ mutate.tbl_ffdf <- function(.data, ...) {
   )
 }
 
+desc <- function(x){
+  if (is.factor(x)){
+    levels(x) <- NULL
+  }
+  0-x
+}
+
 #' @rdname manip_ffdf
 #' @export
 arrange.ffdf <- function(.data, ...) {
-  vars <- select_vars(names(.data), ..., env = parent.frame())
-  idx <- ffdforder(.data[vars])
+  if (length(dots(...)) == 0){
+    return(.data)
+  }
+  call <- substitute(fforder(...))
+  open(.data)
+  idx <- eval(call, physical(.data), enclos = parent.frame())
   .data[idx,,drop=FALSE]
 }
 

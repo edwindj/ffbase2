@@ -1,4 +1,4 @@
 #' @docType package
 #' ffbase2
-#' @import assertthat dplyr
+#' @import assertthat dplyr lazyeval
 NULL

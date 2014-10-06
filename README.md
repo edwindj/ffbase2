@@ -1,7 +1,7 @@
 ffbase2
 =======
 
-** NOTE: working with dplyr v0.2! Not 0.3 for the moment **
+** NOTE: due to changes from dplyr 0.2 to 0.3 not working, see branch dplyr_0.2 for a working version for dplyr 0.2 **
 
 Next version of `ffbase`
 - dplyr on ff

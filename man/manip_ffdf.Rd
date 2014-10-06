@@ -16,25 +16,25 @@
 \alias{summarise.tbl_ffdf}
 \title{Data manipulation for ffdf.}
 \usage{
-\method{filter}{ffdf}(.data, ..., .env = parent.frame())
+filter.ffdf(.data, ..., .env = parent.frame())
 
-\method{filter}{tbl_ffdf}(.data, ..., .env = parent.frame())
+filter.tbl_ffdf(.data, ..., .env = parent.frame())
 
-\method{summarise}{ffdf}(.data, ...)
+summarise.ffdf(.data, ...)
 
-\method{summarise}{tbl_ffdf}(.data, ...)
+summarise.tbl_ffdf(.data, ...)
 
-\method{mutate}{ffdf}(.data, ..., inplace = FALSE)
+mutate.ffdf(.data, ..., inplace = FALSE)
 
-\method{mutate}{tbl_ffdf}(.data, ...)
+mutate.tbl_ffdf(.data, ...)
 
-\method{arrange}{ffdf}(.data, ...)
+arrange.ffdf(.data, ...)
 
-\method{arrange}{tbl_ffdf}(.data, ...)
+arrange.tbl_ffdf(.data, ...)
 
-\method{select}{ffdf}(.data, ...)
+select.ffdf(.data, ...)
 
-\method{select}{tbl_ffdf}(.data, ...)
+select.tbl_ffdf(.data, ...)
 
 rename.ffdf(.data, ...)
 

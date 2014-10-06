@@ -33,26 +33,27 @@ and_expr <- function(exprs) {
 #' @importFrom ffbase ffwhich
 #' @param .env The environment in which to evaluate arguments not included in 
 #' the data. The default should suffice for ordinary usage.
-filter.ffdf <- function(.data, ..., .env=parent.frame()){
-  expr <- and_expr(dots(...))
-  idx <- ffbase::ffwhich(.data, as.expression(expr), envir=.env)
+filter_.ffdf <- function(.data, ..., .dots){
+  dots <- lazyeval::all_dots(.dots, ...)
+  expr <- lapply(dots, `[[`, "expr")
+  expr <- and_expr(expr)
+  # TODO reimplement ffwhich in ffbase2!
+  idx <- ffbase::ffwhich(.data, as.expression(expr), envir=.dots[[1]]$env)
   .data[idx,,drop=FALSE]
 }
 
 #' @rdname manip_ffdf
 #' @export
-filter.tbl_ffdf <- function(.data, ..., .env=parent.frame()) {
-  tbl_ffdf(
-    filter.ffdf(.data, ..., .env=.env)
-  )
+filter_.tbl_ffdf <- function(.data, ..., .dots) {
+  tbl_ffdf(NextMethod())
 }
 
  #' @rdname manip_ffdf
 #' @export
-summarise.ffdf <- function(.data, ...) {
+summarise_.ffdf <- function(.data, ..., .dots) {
   #cols <- named_dots(...)
-  input <- partial_eval(dots(...), .data, parent.frame())
-  input <- auto_name(input)
+  dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
+  input <- partial_eval(dots, .data)
   
   data_env <- list2env(physical(.data), parent = parent.frame())
   data_env$n <- function() nrow(.data)
@@ -74,10 +75,8 @@ summarise.ffdf <- function(.data, ...) {
 
 #' @rdname manip_ffdf
 #' @export
-summarise.tbl_ffdf <- function(.data, ...) {
-  tbl_ffdf(
-    summarise.ffdf(.data, ...)
-  )
+summarise_.tbl_ffdf <- function(.data, ...) {
+  tbl_ffdf(NextMethod())
 }
 
 #' @rdname manip_ffdf

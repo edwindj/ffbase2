@@ -10,6 +10,6 @@ borrow_from_dplyr <- function(...){
        envir=getNamespace("dplyr"))
 }
 
-# borrow_from_dplyr( dots, commas, named_dots, deparse_all, auto_name, auto_names,
+# borrow_from_dplyr( deparse_all, group_by_prepare, commas,
 #                    common_by, `%||%`, names2, check_size,
 #                    check_weight)

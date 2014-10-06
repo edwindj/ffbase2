@@ -91,13 +91,10 @@ ungroup.grouped_ffdf <- function(x) {
 }
 
 #' @export
-regroup.grouped_ffdf <- function(x, value) {
-  grouped_ffdf(x, unname(value))
-}
-
-#' @export
-regroup.ffdf <- function(x, value) {
-  grouped_ffdf(x, unname(value))
+group_by_.ffdf <- function (.data, ..., .dots, add = FALSE) 
+{
+  groups <- group_by_prepare(.data, ..., .dots = .dots, add = add)
+  grouped_ffdf(groups$data, groups$groups)
 }
 
 data_sorted <- function(x){

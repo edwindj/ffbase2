@@ -19,16 +19,18 @@ NULL
 #' @importFrom ffbase ffappend 
 #' @importFrom ffbase ffwhich
 #' @export
-filter.grouped_ffdf <- function(.data, ...) {
-  expr <- and_expr(dots(...))
-  
+filter_.grouped_ffdf <- function(.data, ..., .dots) {
+  dots <- lazyeval::all_dots(.dots, ...)
   out <- NULL
-  filter_q <- substitute(filter(ch, expr))
-  data_s <- data_sorted(.data)  
-  .env <- parent.frame()
+  data_s <- data_sorted(.data)
   for (i in grouped_chunks(.data)){
     ch <- grouped_df(data_s[i,,drop=FALSE], groups(.data))
-    out <- ffdfappend(out, eval(filter_q, list(ch=ch), .env))
+    res <- filter_(ch, .dots=dots)
+    if (is.null(out)){
+      out <- as_ffdf(res)
+    } else {
+      out <- ffdfappend(out, res)
+    }
   }
   grouped_ffdf(
     data = out,
@@ -39,12 +41,10 @@ filter.grouped_ffdf <- function(.data, ...) {
 
 #' @rdname manip_grouped_ffdf
 #' @export
-summarise.grouped_ffdf <- function(.data, ...){
+summarise_.grouped_ffdf <- function(.data, ..., .dots){
   out <- NULL
-  # TODO filter out unneeded variables...
-  summarise_q <- substitute(summarise(.ch, ...))
+  dots <- lazyeval::all_dots(.dots, ...)
   data_s <- data_sorted(.data)  
-  .env <- parent.frame()
   for (i in grouped_chunks(.data)){
     ch <- grouped_df(data_s[i,,drop=FALSE], groups(.data))
     out <- ffdfappend(out, eval(summarise_q, list(.ch=ch), .env))

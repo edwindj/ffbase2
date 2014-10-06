@@ -1,31 +1,15 @@
 # Borrowing internal functions from dplyr.
-# - dots
-# - commas
-# - named_dots
 # - deparse_all
-# - auto_name
-# - auto_names
+# - group_by_prepare
+# - commas
 # - common_by
 # - %||%
 # - names2
 # - check_size
 # - check_weight
 # Generated with:
-# borrow_from_dplyr(dots, commas, named_dots, deparse_all, auto_name, 
-#     auto_names, common_by, `%||%`, names2, check_size, check_weight)
-dots <-
-function (...) 
-{
-    eval(substitute(alist(...)))
-}
-commas <-
-function (...) 
-paste0(..., collapse = ", ")
-named_dots <-
-function (...) 
-{
-    auto_name(dots(...))
-}
+# borrow_from_dplyr(deparse_all, group_by_prepare, commas, common_by, 
+#     `%||%`, names2, check_size, check_weight)
 deparse_all <-
 function (x) 
 {
@@ -33,30 +17,41 @@ function (x)
         collapse = "")
     vapply(x, deparse2, FUN.VALUE = character(1))
 }
-auto_name <-
-function (x) 
+group_by_prepare <-
+function (.data, ..., .dots, add = FALSE) 
 {
-    names(x) <- auto_names(x)
-    x
+    new_groups <- lazyeval::all_dots(.dots, ...)
+    is_name <- vapply(new_groups, function(x) is.name(x$expr), 
+        logical(1))
+    has_name <- names2(new_groups) != ""
+    needs_mutate <- has_name | !is_name
+    if (any(needs_mutate)) {
+        .data <- mutate_(.data, .dots = new_groups[needs_mutate])
+    }
+    new_groups <- lazyeval::auto_name(new_groups)
+    groups <- lapply(names(new_groups), as.name)
+    if (add) {
+        groups <- c(groups(.data), groups)
+    }
+    groups <- groups[!duplicated(groups)]
+    list(data = .data, groups = groups)
 }
-auto_names <-
-function (x) 
-{
-    nms <- names2(x)
-    missing <- nms == ""
-    if (all(!missing)) 
-        return(nms)
-    deparse2 <- function(x) paste(deparse(x, 500L), collapse = "")
-    defaults <- vapply(x[missing], deparse2, character(1), USE.NAMES = FALSE)
-    nms[missing] <- defaults
-    nms
-}
+commas <-
+function (...) 
+paste0(..., collapse = ", ")
 common_by <-
-function (x, y) 
+function (by = NULL, x, y) 
 {
+    if (!is.null(by)) {
+        return(list(x = names(by) %||% by, y = unname(by)))
+    }
     by <- intersect(tbl_vars(x), tbl_vars(y))
+    if (length(by) == 0) {
+        stop("No common variables. Please specify `by` param.", 
+            call. = FALSE)
+    }
     message("Joining by: ", capture.output(dput(by)))
-    by
+    list(x = by, y = by)
 }
 `%||%` <-
 function (x, y) 

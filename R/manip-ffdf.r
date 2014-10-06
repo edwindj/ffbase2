@@ -82,25 +82,25 @@ summarise_.tbl_ffdf <- function(.data, ...) {
 #' @rdname manip_ffdf
 #' @export
 #' @importFrom ffbase transform.ffdf
-mutate.ffdf <- function(.data, ..., inplace = FALSE) {
+mutate_.ffdf <- function(.data, ..., .dots, inplace = FALSE) {
+  dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
   if (!inplace){
     # only clone those vectors that are overwritten
-    nms <- names(named_dots(...))
+    nms <- names(dots)
     nms <- nms[nms %in% names(.data)]
     if (length(nms)){
       .data[nms] <- clone(.data[nms])
     }
   }
+  
   #TODO improve: transform does not support just defined variables
   eval(substitute(ffbase::transform.ffdf(.data, ...)))
 }
 
 #' @rdname manip_ffdf
 #' @export
-mutate.tbl_ffdf <- function(.data, ...) {
-  tbl_ffdf(
-    mutate.ffdf(.data, ...)
-  )
+mutate_.tbl_ffdf <- function(.data, ...) {
+  tbl_ffdf(NextMethod())
 }
 
 desc <- function(x){
@@ -112,38 +112,35 @@ desc <- function(x){
 
 #' @rdname manip_ffdf
 #' @export
-arrange.ffdf <- function(.data, ...) {
-  if (length(dots(...)) == 0){
+arrange_.ffdf <- function(.data, ..., .dots) {
+  dots <- lazyeval::all_dots(.dots, ...)
+  if (length(dots) == 0){
     return(.data)
   }
-  call <- substitute(fforder(...))
+  fforder_call <- lazyeval::make_call(quote(fforder), dots)
   open(.data)
-  idx <- eval(call, physical(.data), enclos = parent.frame())
+  idx <- lazyeval::lazy_eval(fforder_call, physical(.data))
   .data[idx,,drop=FALSE]
 }
 
 #' @rdname manip_ffdf
 #' @export
-arrange.tbl_ffdf <- function(.data, ...) {
-  tbl_ffdf(
-    arrange.ffdf(.data, ...)
-  )
+arrange_.tbl_ffdf <- function(.data, ...) {
+  tbl_ffdf(NextMethod())
 }
 
 #' @rdname manip_ffdf
 #' @export
-select.ffdf <- function(.data, ...) {
-  vars <- select_vars(names(.data), ..., env = parent.frame(),
-                      include = as.character(groups(.data)))
-  .data[vars]
+select_.ffdf <- function(.data, ..., .dots) {
+  dots <- lazyeval::all_dots(.dots, ...)
+  vars <- select_vars_(names(.data), dots)
+  setNames(.data[vars], names(vars))
 }
 
 #' @rdname manip_ffdf
 #' @export
-select.tbl_ffdf <- function(.data, ...) {
-  tbl_ffdf(
-    select.ffdf(.data, ...)
-  )
+select_.tbl_ffdf <- function(.data, ..., .dots) {
+  tbl_ffdf(NextMethod())
 }
 
 #' @rdname manip_ffdf

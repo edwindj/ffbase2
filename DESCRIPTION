@@ -14,6 +14,7 @@ Depends:
     dplyr (>= 0.3)
 Imports:
     ffbase,
-    assertthat
+    assertthat,
+    lazyeval
 Suggests:
     testthat

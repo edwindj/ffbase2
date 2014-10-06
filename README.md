@@ -1,6 +1,8 @@
 ffbase2
 =======
 
+** NOTE: working with dplyr v0.2! Not 0.3 for the moment **
+
 Next version of `ffbase`
 - dplyr on ff
 

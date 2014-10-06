@@ -11,7 +11,7 @@ URL: http://github.com/edwindj/ffbase2
 Date: 2014-08-01
 Depends:
     ff (>= 2.2-11),
-    dplyr
+    dplyr (<= 0.2)
 Imports:
     ffbase,
     assertthat

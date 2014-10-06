@@ -26,6 +26,13 @@ as_ffdf <- function(x, character_to_factor=TRUE, ...){
     }
     x[is_char] <- lapply(x[is_char], factor)
   }
+  
+  if (nrow(x) == 0){       # trick to convert an empty data.frame to ffdf
+    res <- as.ffdf(x[NA,]) # create an empty row (with NA's)
+    nrow(res) <- 0         # and set the number of rows to 0
+    return(res)
+  }
+  
   as.ffdf(x, ...)
 }
 

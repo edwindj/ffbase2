@@ -29,7 +29,7 @@ filter_.grouped_ffdf <- function(.data, ..., .dots) {
     if (is.null(out)){
       out <- as_ffdf(res)
     } else {
-      out <- ffdfappend(out, res)
+      out <- ffdfappend(out, res, adjustvmode = FALSE, recode = FALSE)
     }
   }
   grouped_ffdf(
@@ -47,7 +47,12 @@ summarise_.grouped_ffdf <- function(.data, ..., .dots){
   data_s <- data_sorted(.data)  
   for (i in grouped_chunks(.data)){
     ch <- grouped_df(data_s[i,,drop=FALSE], groups(.data))
-    out <- ffdfappend(out, eval(summarise_q, list(.ch=ch), .env))
+    res <- summarise_(ch, .dots = dots)
+    if (is.null(out)){
+      out <- as_ffdf(res)
+    } else {
+      out <- ffdfappend(out, res, adjustvmode = FALSE, recode = FALSE)
+    }
   }
   tbl_ffdf(out)
 }
@@ -56,14 +61,25 @@ summarise_.grouped_ffdf <- function(.data, ..., .dots){
 #' @export
 mutate.grouped_ffdf <- function(.data, ..., inplace = FALSE) {
   #TODO only clone columns that are named in the ...
-  if (!inplace) .data <- clone(.data)
+  dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
+  if (!inplace){
+    # only clone those vectors that are overwritten
+    nms <- names(dots)
+    nms <- nms[nms %in% names(.data)]
+    if (length(nms)){
+      .data[nms] <- clone(.data[nms])
+    }
+  }
   out <- NULL
-  mutate_q <- substitute(mutate(.ch, ...))
   data_s <- data_sorted(.data)  
-  .env <- parent.frame()
   for (i in grouped_chunks(.data)){
     ch <- grouped_df(data_s[i,,drop=FALSE], groups(.data))
-    out <- ffdfappend(out, eval(mutate_q, list(.ch=ch), .env))
+    res <- mutate_(ch, .dots = dots)
+    if (is.null(out)){
+      out <- as_ffdf(res)
+    } else {
+      out <- ffdfappend(out, res, adjustvmode = FALSE, recode = FALSE)
+    }
   }
   grouped_ffdf(
     data = out,
@@ -74,10 +90,16 @@ mutate.grouped_ffdf <- function(.data, ..., inplace = FALSE) {
 
 #' @rdname manip_grouped_ffdf
 #' @export
-arrange.grouped_ffdf <- function(.data, ...) {
-  vars <- select_vars(names(.data), ..., env = parent.frame(),
-                      include = as.character(groups(.data)))
-  idx <- ffdforder(.data[vars])
+arrange_.grouped_ffdf <- function(.data, ..., .dots) {
+  dots <- lazyeval::all_dots(.dots, ...)
+  
+  if (length(dots) == 0){
+    return(.data)
+  }
+  groups <- lazyeval::as.lazy_dots(groups(.data), env = lazyeval::common_env(dots))
+  fforder_call <- lazyeval::make_call(quote(fforder), c(groups, dots))
+  open(.data)
+  idx <- lazyeval::lazy_eval(fforder_call, physical(.data))
   grouped_ffdf(
     data = .data[idx,,drop=FALSE],
     vars = groups(.data), 

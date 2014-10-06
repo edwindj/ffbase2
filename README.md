@@ -1,12 +1,10 @@
 ffbase2
 =======
 
-** NOTE: due to changes from dplyr 0.2 to 0.3 not working, see branch dplyr_0.2 for a working version for dplyr 0.2 **
-
 Next version of `ffbase`
 - dplyr on ff
 
-Working, but documentation is not yet CRAN ready...
+Working (dplyr 0.3), but documentation is not yet CRAN ready...
 
 [![Build Status](https://travis-ci.org/edwindj/ffbase2.svg?branch=master)](https://travis-ci.org/edwindj/ffbase2)
 

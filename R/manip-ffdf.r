@@ -38,6 +38,7 @@ filter_.ffdf <- function(.data, ..., .dots){
   expr <- lapply(dots, `[[`, "expr")
   expr <- and_expr(expr)
   # TODO reimplement ffwhich in ffbase2!
+  open(.data)
   idx <- ffbase::ffwhich(.data, as.expression(expr), envir=.dots[[1]]$env)
   .data[idx,,drop=FALSE]
 }
@@ -52,6 +53,7 @@ filter_.tbl_ffdf <- function(.data, ..., .dots) {
 #' @export
 summarise_.ffdf <- function(.data, ..., .dots) {
   #cols <- named_dots(...)
+  open(.data)
   dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
   input <- partial_eval(dots, .data)
   
@@ -83,6 +85,7 @@ summarise_.tbl_ffdf <- function(.data, ...) {
 #' @export
 #' @importFrom ffbase transform.ffdf
 mutate_.ffdf <- function(.data, ..., .dots, inplace = FALSE) {
+  open(.data)
   dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
   if (!inplace){
     # only clone those vectors that are overwritten

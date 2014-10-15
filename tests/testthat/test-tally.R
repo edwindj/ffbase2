@@ -1,9 +1,12 @@
 context("tally")
 
 test_that("Tally works",{
-  iris_f <- tbl_ffdf(iris)
-  expect_equal( as.data.frame(tally(iris_f))
-              , tally(iris))
+  expect <- iris %>% tally
+  
+  object <- tbl_ffdf(iris) %>%  tally %>%  as.data.frame()
+  
+  expect_equal( tbl_ffdf(iris) %>%  tally %>%  as.data.frame()
+              , iris %>% tally)
 })
 
 test_that("Grouped tally works",{
@@ -11,6 +14,7 @@ test_that("Grouped tally works",{
     iris %>%
     group_by(Species) %>%
     tally
+
   object <- 
     tbl_ffdf(iris) %>%
     group_by(Species) %>%

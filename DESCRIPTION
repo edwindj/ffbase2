@@ -4,7 +4,7 @@ License: GPL-3
 Title: Dplyr for package ff
 Type: Package
 LazyLoad: yes
-Author: Edwin de Jonge
+Author: Edwin de Jonge [aut,cre]
 Description: Dplyr for package ff
 Version: 0.2
 URL: http://github.com/edwindj/ffbase2

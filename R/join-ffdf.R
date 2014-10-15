@@ -34,7 +34,6 @@ NULL
 
 #' @export
 #' @rdname join.tbl_ffdf
-#' @importFrom ffbase ffdfappend
 inner_join.ffdf <- function(x , y, by=NULL, copy = FALSE, ...){
   by <- by %||% common_by(x, y)
   if (!length(by)) 
@@ -47,11 +46,10 @@ inner_join.ffdf <- function(x , y, by=NULL, copy = FALSE, ...){
   for (i in chunk(x)){
     x_chunk <- x[i,]
     for (j in chunk(y)){
-      res <- ffbase::ffdfappend(res, inner_join(x_chunk, y[j,], by=by))
+      res <- append_to(res, inner_join(x_chunk, y[j,], by=by))
     }
   }
-  if (!is.null(res))
-      tbl_ffdf(res)
+  res
 }
 
 #' @export
@@ -68,11 +66,10 @@ left_join.ffdf  <- function(x, y, by=NULL, copy=FALSE, ...){
   for (i in chunk(x)){
     x_chunk <- x[i,]
     for (j in chunk(y)){
-      res <- ffbase::ffdfappend(res, left_join(x_chunk, y[j,], by=by))
+      res <- append_to(res, left_join(x_chunk, y[j,], by=by))
     }
   }
-  if (!is.null(res))
-    tbl_ffdf(res)
+  res
 }
 
 #' @export
@@ -90,11 +87,10 @@ semi_join.ffdf  <- function(x, y, by=NULL, ...){
   for (i in chunk(x)){
     x_chunk <- x[i,]
     for (j in chunk(y)){
-      res <- ffbase::ffdfappend(res, semi_join(x_chunk, y[j,], by=by))
+      res <- append_to(res, semi_join(x_chunk, y[j,], by=by))
     }
   }
-  if (!is.null(res))
-    tbl_ffdf(res)
+  res 
 }
 
 #' @export
@@ -118,11 +114,10 @@ anti_join.ffdf <- function(x, y, by=NULL, ...){
       }
     }
     if (nrow(x_chunk)){
-      res <- ffdfappend(res, x_chunk)
+      res <- append_to(res, x_chunk)
     }
   }
-  if (!is.null(res))
-    tbl_ffdf(res)
+  res
 }
 
 

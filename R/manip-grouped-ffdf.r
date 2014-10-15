@@ -16,7 +16,6 @@
 NULL
 
 #' @rdname manip_grouped_ffdf
-#' @importFrom ffbase ffappend 
 #' @importFrom ffbase ffwhich
 #' @export
 filter_.grouped_ffdf <- function(.data, ..., .dots) {
@@ -29,7 +28,7 @@ filter_.grouped_ffdf <- function(.data, ..., .dots) {
     if (is.null(out)){
       out <- as_ffdf(res)
     } else {
-      out <- ffdfappend(out, res, adjustvmode = FALSE, recode = FALSE)
+      out <- append_to(out, res)
     }
   }
   grouped_ffdf(
@@ -51,7 +50,7 @@ summarise_.grouped_ffdf <- function(.data, ..., .dots){
     if (is.null(out)){
       out <- as_ffdf(res)
     } else {
-      out <- ffdfappend(out, res, adjustvmode = FALSE, recode = FALSE)
+      out <- append_to(out, res)
     }
   }
   tbl_ffdf(out)
@@ -78,7 +77,7 @@ mutate.grouped_ffdf <- function(.data, ..., inplace = FALSE) {
     if (is.null(out)){
       out <- as_ffdf(res)
     } else {
-      out <- ffdfappend(out, res, adjustvmode = FALSE, recode = FALSE)
+      out <- append_to(out, res)
     }
   }
   grouped_ffdf(

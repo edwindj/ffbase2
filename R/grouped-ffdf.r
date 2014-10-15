@@ -75,6 +75,27 @@ groups.tbl_ffdf <- function(x) {
   attr(x, "vars")
 }
 
+#' @rdname manip_ffdf
+#' @export
+rename_.grouped_ffdf <- function(.data, ..., .dots) {
+  dots <- lazyeval::all_dots(.dots, ...)
+  vars <- rename_vars_(names(.data), dots)
+  
+  out <- 
+    physical(.data)[vars] %>%
+    setNames(out, names(vars)) %>%
+    do.call(ffdf, .)
+  
+  
+  attr(out, "indices")$data_sorted <-
+    data_sorted(.data) %>%
+    physical(.)[vars] %>%
+    do.call(ffdf, .)  
+  
+  grouped_ffdf(out, vars=groups(.data))
+}
+
+
 #' @export
 as.data.frame.grouped_ffdf <- function(x, row.names = NULL,
                                      optional = FALSE, ...) {

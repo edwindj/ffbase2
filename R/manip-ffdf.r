@@ -145,14 +145,20 @@ select_.tbl_ffdf <- function(.data, ..., .dots) {
 
 #' @rdname manip_ffdf
 #' @export
-rename.ffdf <- function(.data, ...) {
-  vars <- rename_vars(names(.data), ...)
-  # bug in ff: setting names does not changed the physical names so work around it
-  l <- physical(.data)
-  names(l) <- names(vars)
-  do.call(ffdf, l)
+rename_.ffdf <- function(.data, ..., .dots) {
+  dots <- lazyeval::all_dots(.dots, ...)
+  vars <- rename_vars_(names(.data), dots)
+  out <- physical(.data)[vars]
+  out <- setNames(out, names(vars))
+  do.call(ffdf, out)
 }
 
+
+#' @rdname manip_ffdf
+#' @export
+rename_.tbl_ffdf <- function(.data, ..., .dots){
+  tbl_ffdf(NextMethod())
+}
 
 #' @rdname manip_ffdf
 #' @export

@@ -121,6 +121,24 @@ do.grouped_ffdf <- function(.data, ...) {
   do.call(rbind, out)
 }
 
+#' @rdname manip_grouped_ffdf
+#' @export
+slice_.grouped_ffdf <- function(.data, ..., .dots){
+  out <- NULL
+  dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
+  data_s <- data_sorted(.data)
+  for (i in grouped_chunks(.data)){
+    ch <- grouped_df(data_s[i,,drop=FALSE], groups(.data))
+    res <- slice_(ch, .dots = dots)
+    if (is.null(out)){
+      out <- as_ffdf(res)
+    } else {
+      out <- append_to(out, res)
+    }
+  }
+  tbl_ffdf(out)
+}
+
 ### testing...
 
 # data("baseball", package = "plyr")

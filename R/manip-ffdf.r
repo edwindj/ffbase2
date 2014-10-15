@@ -162,6 +162,27 @@ rename_.tbl_ffdf <- function(.data, ..., .dots){
 
 #' @rdname manip_ffdf
 #' @export
+slice_.ffdf <- function(.data, ..., .dots){
+  dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
+  n <- function() nrow(.data)
+  
+  dots[] <- lapply(dots, function(dot){
+    dot$env <- new.env(parent=dot$env)
+    dot$env$n <- n
+    dot
+  })
+  idx <- unlist(lazyeval::lazy_eval(dots, .data))
+  .data[idx,, drop=FALSE]
+}
+
+#' @rdname manip_ffdf
+#' @export
+slice_.tbl_ffdf <- function(.data, ..., .dots){
+  tbl_ffdf(NextMethod())
+}
+
+#' @rdname manip_ffdf
+#' @export
 do.ffdf <- function(.data, ...) {
   tbl_ffdf(dplyr::do(as.data.frame(.data, ...)))
 }

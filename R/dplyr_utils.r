@@ -12,4 +12,4 @@ borrow_from_dplyr <- function(...){
 
 # borrow_from_dplyr( deparse_all, group_by_prepare, commas,
 #                    common_by, `%||%`, names2, check_size,
-#                    check_weight)
+#                    check_weight, distinct_vars)

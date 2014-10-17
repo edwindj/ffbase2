@@ -113,9 +113,7 @@ anti_join.ffdf <- function(x, y, by=NULL, ...){
         break
       }
     }
-    if (nrow(x_chunk)){
-      res <- append_to(res, x_chunk)
-    }
+    res <- append_to(res, x_chunk, check_structure = FALSE)
   }
   res
 }

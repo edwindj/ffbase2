@@ -108,7 +108,7 @@ mutate_.tbl_ffdf <- function(.data, ...) {
 
 desc <- function(x){
   if (is.factor(x)){
-    levels(x) <- NULL
+    x <- as.integer(x)
   }
   0-x
 }

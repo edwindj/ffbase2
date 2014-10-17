@@ -7,9 +7,10 @@
 # - names2
 # - check_size
 # - check_weight
+# - distinct_vars
 # Generated with:
 # borrow_from_dplyr(deparse_all, group_by_prepare, commas, common_by, 
-#     `%||%`, names2, check_size, check_weight)
+#     `%||%`, names2, check_size, check_weight, distinct_vars)
 deparse_all <-
 function (x) 
 {
@@ -85,4 +86,15 @@ function (x, n)
             call. = FALSE)
     }
     x/sum(x)
+}
+distinct_vars <-
+function (.data, ..., .dots) 
+{
+    dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
+    needs_mutate <- vapply(dots, function(x) !is.name(x$expr), 
+        logical(1))
+    if (any(needs_mutate)) {
+        .data <- mutate_(.data, .dots = dots[needs_mutate])
+    }
+    list(data = .data, vars = names(dots))
 }

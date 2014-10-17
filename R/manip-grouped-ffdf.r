@@ -16,7 +16,6 @@
 NULL
 
 #' @rdname manip_grouped_ffdf
-#' @importFrom ffbase ffwhich
 #' @export
 filter_.grouped_ffdf <- function(.data, ..., .dots) {
   dots <- lazyeval::all_dots(.dots, ...)
@@ -25,11 +24,7 @@ filter_.grouped_ffdf <- function(.data, ..., .dots) {
   for (i in grouped_chunks(.data)){
     ch <- grouped_df(data_s[i,,drop=FALSE], groups(.data))
     res <- filter_(ch, .dots=dots)
-    if (is.null(out)){
-      out <- as_ffdf(res)
-    } else {
-      out <- append_to(out, res)
-    }
+    out <- append_to(out, res, check_structure=FALSE)
   }
   grouped_ffdf(
     data = out,
@@ -47,13 +42,9 @@ summarise_.grouped_ffdf <- function(.data, ..., .dots){
   for (i in grouped_chunks(.data)){
     ch <- grouped_df(data_s[i,,drop=FALSE], groups(.data))
     res <- summarise_(ch, .dots = dots)
-    if (is.null(out)){
-      out <- as_ffdf(res)
-    } else {
-      out <- append_to(out, res)
-    }
+    out <- append_to(out, res, check_structure=FALSE)
   }
-  tbl_ffdf(out)
+  out
 }
 
 #' @rdname manip_grouped_ffdf
@@ -74,11 +65,7 @@ mutate.grouped_ffdf <- function(.data, ..., inplace = FALSE) {
   for (i in grouped_chunks(.data)){
     ch <- grouped_df(data_s[i,,drop=FALSE], groups(.data))
     res <- mutate_(ch, .dots = dots)
-    if (is.null(out)){
-      out <- as_ffdf(res)
-    } else {
-      out <- append_to(out, res)
-    }
+    out <- append_to(out, res, check_structure=FALSE)
   }
   grouped_ffdf(
     data = out,
@@ -129,13 +116,9 @@ slice_.grouped_ffdf <- function(.data, ..., .dots){
   for (i in grouped_chunks(.data)){
     ch <- grouped_df(data_s[i,,drop=FALSE], groups(.data))
     res <- slice_(ch, .dots = dots)
-    if (is.null(out)){
-      out <- as_ffdf(res)
-    } else {
-      out <- append_to(out, res)
-    }
+    out <- append_to(out, res, check_structure=FALSE)    
   }
-  tbl_ffdf(out)
+  out
 }
 
 ### testing...

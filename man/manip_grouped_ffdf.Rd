@@ -4,6 +4,7 @@
 \alias{filter_.grouped_ffdf}
 \alias{manip_grouped_ffdf}
 \alias{mutate.grouped_ffdf}
+\alias{slice_.grouped_ffdf}
 \alias{summarise_.grouped_ffdf}
 \title{Data manipulation for grouped data tables.}
 \usage{
@@ -14,6 +15,8 @@
 mutate.grouped_ffdf(.data, ..., inplace = FALSE)
 
 \method{arrange_}{grouped_ffdf}(.data, ..., .dots)
+
+\method{slice_}{grouped_ffdf}(.data, ..., .dots)
 }
 \arguments{
 \item{.data}{a data table}

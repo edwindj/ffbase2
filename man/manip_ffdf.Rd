@@ -14,6 +14,8 @@
 \alias{rename_.tbl_ffdf}
 \alias{select_.ffdf}
 \alias{select_.tbl_ffdf}
+\alias{slice_.ffdf}
+\alias{slice_.tbl_ffdf}
 \alias{summarise_.ffdf}
 \alias{summarise_.tbl_ffdf}
 \title{Data manipulation for ffdf.}
@@ -43,6 +45,10 @@
 \method{rename_}{ffdf}(.data, ..., .dots)
 
 \method{rename_}{tbl_ffdf}(.data, ..., .dots)
+
+\method{slice_}{ffdf}(.data, ..., .dots)
+
+\method{slice_}{tbl_ffdf}(.data, ..., .dots)
 
 \method{do}{ffdf}(.data, ...)
 

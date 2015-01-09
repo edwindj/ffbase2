@@ -174,7 +174,7 @@ slice_.ffdf <- function(.data, ..., .dots){
     dot$env$n <- n
     dot
   })
-  idx <- unlist(lazyeval::lazy_eval(dots, .data))
+  idx <- as.ff(lazyeval::lazy_eval(dots, .data)[[1]])
   .data[idx,, drop=FALSE]
 }
 
@@ -193,5 +193,5 @@ do.ffdf <- function(.data, ...) {
 #' @rdname manip_ffdf
 #' @export
 do.tbl_ffdf <- function(.data, ...) {
-  tbl_ffdf(as.data.frame(.data), ...)
+  NextMethod()
 }

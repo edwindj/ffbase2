@@ -95,6 +95,8 @@ semi_join.ffdf  <- function(x, y, by=NULL, ...){
 
 #' @export
 #' @rdname join.tbl_ffdf
+#' @importFrom ff is.ffdf
+#' @importFrom bit chunk
 anti_join.ffdf <- function(x, y, by=NULL, ...){
   by <- by %||% common_by(x, y)
   if (!length(by))

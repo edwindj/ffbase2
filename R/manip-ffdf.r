@@ -83,7 +83,6 @@ summarise_.tbl_ffdf <- function(.data, ...) {
 
 #' @rdname manip_ffdf
 #' @export
-#' @importFrom ffbase transform.ffdf
 mutate_.ffdf <- function(.data, ..., .dots, inplace = FALSE) {
   open(.data)
   dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
@@ -95,9 +94,8 @@ mutate_.ffdf <- function(.data, ..., .dots, inplace = FALSE) {
       .data[nms] <- clone(.data[nms])
     }
   }
-  
   #TODO improve: transform does not support just defined variables
-  eval(substitute(ffbase::transform.ffdf(.data, ...)))
+  eval(substitute(transform(.data, ...)))
 }
 
 #' @rdname manip_ffdf

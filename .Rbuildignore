@@ -5,3 +5,4 @@ examples
 TODO.md
 README.Rmd
 ^db
+^\.travis\.yml$

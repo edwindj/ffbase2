@@ -1,11 +1,11 @@
 Package: ffbase2
 Maintainer: Edwin de Jonge <edwindjonge@gmail.com>
 License: GPL-3
-Title: Dplyr for package ff
+Title: Dplyr for large out of memory data.frames of package 'ff'
 Type: Package
 LazyLoad: yes
 Author: Edwin de Jonge [aut,cre]
-Description: Dplyr for package ff
+Description: Dplyr for package 'ff'
 Version: 0.2
 URL: http://github.com/edwindj/ffbase2
 Date: 2014-08-01

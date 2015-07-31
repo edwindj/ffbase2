@@ -6,7 +6,7 @@ Next version of `ffbase`
 
 Working (dplyr 0.3), but documentation is not yet CRAN ready...
 
-![version](http://cranlogs.r-pkg.org/badges/version/ffbase2)
+![version](http://www.r-pkg.org/badges/version/ffbase2)
 [![Build Status](https://travis-ci.org/edwindj/ffbase2.svg?branch=master)](https://travis-ci.org/edwindj/ffbase2)
 
 ## Install

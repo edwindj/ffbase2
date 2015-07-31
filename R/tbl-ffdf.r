@@ -86,7 +86,7 @@ print.tbl_ffdf <- function(x, ..., n=NULL) {
   cat("Source:     ffdf ('",src$path,"/",attr(x, "name", exact=TRUE),"') ", 
       dim_desc(x), "\n", sep = "")
   cat("\n")
-  trunc_mat(x, n=n)
+  print(trunc_mat(x, n=n))
 }
 
 #' @rdname tbl-ffdf
